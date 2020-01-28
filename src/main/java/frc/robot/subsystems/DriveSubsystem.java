@@ -39,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void teleOpDrive(XboxController controller) {
-    drive.arcadeDrive(controller.getY(Hand.kLeft), controller.getX(Hand.kRight) * 0.85);
+    drive.arcadeDrive(-controller.getY(Hand.kLeft), controller.getX(Hand.kRight) * 0.85);
   }
 
   public void turnDrive(double speed) {

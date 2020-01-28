@@ -57,31 +57,22 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    new JoystickButton(m_functionsController, Button.kBumperLeft.value)
-        .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
+    //new JoystickButton(m_functionsController, Button.kBumperLeft.value)
+    //    .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
     //new JoystickButton(m_functionsController, Button.kBumperRight.value)
     //    .toggleWhenPressed(new ControlPanelRotation(m_controlPanelSubsystem));
-    new JoystickButton(m_driverController, Button.kX.value)
-        .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
-    /*
-    new JoystickButton(m_functionsController, Button.kA.value)
-        .whileHeld(new InstantCommand(() -> m_controlPanelSubsystem.quarterSpeed(), m_controlPanelSubsystem));
-    new JoystickButton(m_functionsController, Button.kB.value)
-        .whileHeld(new InstantCommand(() -> m_controlPanelSubsystem.halfSpeed(), m_controlPanelSubsystem));
-    new JoystickButton(m_functionsController, Button.kY.value)
-        .whileHeld(new InstantCommand(() -> m_controlPanelSubsystem.threeQuarterSpeed(), m_controlPanelSubsystem));
-    new JoystickButton(m_functionsController, Button.kX.value)
-        .whileHeld(new InstantCommand(() -> m_controlPanelSubsystem.fullSpeed(), m_controlPanelSubsystem));
-        */
-        new JoystickButton(m_functionsController, Button.kBumperRight.value)
+    //new JoystickButton(m_driverController, Button.kX.value)
+    //    .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
+   
+    new JoystickButton(m_functionsController, Button.kBumperRight.value)
         .whileHeld(new TimerBallLoaderCommand(m_shooterSubsystem));
-    //new JoystickButton(m_driverController, Button.kA.value)
-    //    .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_driverController, Button.kB.value)
+    new JoystickButton(m_functionsController, Button.kA.value)
+        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem));
+    new JoystickButton(m_functionsController, Button.kB.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backHalfSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_driverController, Button.kY.value)
+    new JoystickButton(m_functionsController, Button.kY.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backThreeQuarterSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_driverController, Button.kX.value)
+    new JoystickButton(m_functionsController, Button.kX.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kA.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontQuarterSpeed(), m_shooterSubsystem));
