@@ -82,6 +82,10 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontThreeQuarterSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kX.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
+    new JoystickButton(m_functionsController, Button.kBumperLeft.value)
+        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
+    new JoystickButton(m_functionsController, Button.kBumperLeft.value)
+        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
 
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));

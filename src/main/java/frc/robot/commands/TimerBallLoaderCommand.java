@@ -48,6 +48,6 @@ public class TimerBallLoaderCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_timer.get() >= 0.375;
+    return m_timer.get() >= 1.0;
   }
 }
