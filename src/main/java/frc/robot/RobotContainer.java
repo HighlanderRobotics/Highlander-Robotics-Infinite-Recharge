@@ -13,11 +13,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
-<<<<<<< HEAD
 import frc.robot.commands.SensorSlowCommand;
-import frc.robot.commands.TimerBallLoaderCommand;
-=======
->>>>>>> ce57b02a41b8b1ee7c361ca35cae27ffcbf51862
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
@@ -84,15 +80,12 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
-<<<<<<< HEAD
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
-=======
     
     // m_driverController button uses
     new JoystickButton(m_driverController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
->>>>>>> ce57b02a41b8b1ee7c361ca35cae27ffcbf51862
 
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
