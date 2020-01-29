@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
-import frc.robot.commands.TimerBallLoaderCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
@@ -56,18 +55,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    //new JoystickButton(m_functionsController, Button.kBumperLeft.value)
-    //    .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
-    //new JoystickButton(m_functionsController, Button.kBumperRight.value)
-    //    .toggleWhenPressed(new ControlPanelRotation(m_controlPanelSubsystem));
-    //new JoystickButton(m_driverController, Button.kX.value)
-    //    .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
-   
     new JoystickButton(m_functionsController, Button.kBumperRight.value)
-        .whileHeld(new TimerBallLoaderCommand(m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kA.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem));
+        .whileHeld(new RunCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem).withTimeout(0.5));
     new JoystickButton(m_functionsController, Button.kB.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backHalfSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kY.value)
