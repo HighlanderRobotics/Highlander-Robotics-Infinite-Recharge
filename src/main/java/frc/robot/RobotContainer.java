@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
+<<<<<<< HEAD
 import frc.robot.commands.SensorSlowCommand;
 import frc.robot.commands.TimerBallLoaderCommand;
+=======
+>>>>>>> ce57b02a41b8b1ee7c361ca35cae27ffcbf51862
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
@@ -60,17 +63,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    //new JoystickButton(m_functionsController, Button.kBumperLeft.value)
-    //    .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
-    //new JoystickButton(m_functionsController, Button.kBumperRight.value)
-    //    .toggleWhenPressed(new ControlPanelRotation(m_controlPanelSubsystem));
-    //new JoystickButton(m_driverController, Button.kX.value)
-    //    .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
-   
+    // m_functionsController button uses
     new JoystickButton(m_functionsController, Button.kBumperRight.value)
-        .whileHeld(new TimerBallLoaderCommand(m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kA.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem));
+        .whileHeld(new RunCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem).withTimeout(0.5));
     new JoystickButton(m_functionsController, Button.kB.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backHalfSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kY.value)
@@ -89,13 +84,20 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
+<<<<<<< HEAD
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
+=======
+    
+    // m_driverController button uses
+    new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
+>>>>>>> ce57b02a41b8b1ee7c361ca35cae27ffcbf51862
 
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
-    m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defualtReadings(), m_limelightSubsystem));
+    m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
     }
 
 

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -40,6 +41,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void teleOpDrive(XboxController controller) {
     drive.arcadeDrive(-controller.getY(Hand.kLeft), controller.getX(Hand.kRight) * 0.85);
+  }
+
+  public void teleOpDriveHalfSpeed(XboxController controller) {
+    drive.arcadeDrive(-controller.getY(Hand.kLeft) / 2.0, controller.getX(Hand.kRight) * 0.85);
   }
 
   public void turnDrive(double speed) {
