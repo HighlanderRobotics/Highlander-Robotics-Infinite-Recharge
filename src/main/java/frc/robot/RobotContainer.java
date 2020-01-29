@@ -64,6 +64,8 @@ public class RobotContainer {
     //new JoystickButton(m_driverController, Button.kX.value)
     //    .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
    
+
+    // m_functionsController button uses
     new JoystickButton(m_functionsController, Button.kBumperRight.value)
         .whileHeld(new TimerBallLoaderCommand(m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kA.value)
@@ -86,11 +88,15 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
+    
+    // m_driverController button uses
+    new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
 
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
-    m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defualtReadings(), m_limelightSubsystem));
+    m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
     }
 
 

@@ -23,7 +23,7 @@ public class LimeLightSubsystem extends SubsystemBase {
     
   }
 
-  public void defualtReadings() {
+  public void defaultReadings() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
