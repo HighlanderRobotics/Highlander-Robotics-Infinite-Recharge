@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;

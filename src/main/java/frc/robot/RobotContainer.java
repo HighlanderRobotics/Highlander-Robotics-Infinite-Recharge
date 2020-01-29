@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
+import frc.robot.commands.SensorSlowCommand;
 import frc.robot.commands.TimerBallLoaderCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.distanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -35,7 +37,8 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
   private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
-  
+  private final distanceSensorSubsystem m_DistanceSensorSubsystem = new distanceSensorSubsystem();
+
   private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
   private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
 
@@ -86,6 +89,8 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
+    new JoystickButton(m_driverController, Button.kBumperRight.value)
+        .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
 
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
