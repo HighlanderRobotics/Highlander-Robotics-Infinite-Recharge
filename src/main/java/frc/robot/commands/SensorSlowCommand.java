@@ -12,17 +12,17 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.distanceSensorSubsystem;
 
 public class SensorSlowCommand extends CommandBase {
-  private final distanceSensorSubsystem m_DistanceSensorSubsystem;
+  private final distanceSensorSubsystem m_distanceSensorSubsystem;
   private final DriveSubsystem m_driveSubsystem;
 
   private int threshold = 30;
   /**
    * Creates a new SensorSlowCommand.
    */
-  public SensorSlowCommand(distanceSensorSubsystem dSensorSubsystem, DriveSubsystem driveSubsystem) {
+  public SensorSlowCommand(distanceSensorSubsystem DistanceSensorSubsystem, DriveSubsystem driveSubsystem) {
     m_driveSubsystem = driveSubsystem;
-    m_DistanceSensorSubsystem = dSensorSubsystem;
-    addRequirements(m_DistanceSensorSubsystem, m_driveSubsystem);
+    m_distanceSensorSubsystem = DistanceSensorSubsystem;
+    addRequirements(m_distanceSensorSubsystem, m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +33,7 @@ public class SensorSlowCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_DistanceSensorSubsystem.getFrontRightDistance() < threshold || m_DistanceSensorSubsystem.getFrontLeftDistance() < threshold) {
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < threshold || m_distanceSensorSubsystem.getFrontLeftDistance() < threshold) {
       m_driveSubsystem.straightDrive(0.25);
     }
   }
@@ -46,7 +46,7 @@ public class SensorSlowCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_DistanceSensorSubsystem.getFrontRightDistance() < threshold || m_DistanceSensorSubsystem.getFrontLeftDistance() < threshold) {
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < threshold || m_distanceSensorSubsystem.getFrontLeftDistance() < threshold) {
       return false;
     } else {
       return true;

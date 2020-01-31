@@ -24,92 +24,86 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
- 
 
 /**
  * 
  * 
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-// The robot's subsystems and commands are defined here...
-  private final ControlPanelSubsystem m_controlPanelSubsystem = new ControlPanelSubsystem();
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
-  private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
-  private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
-  private final distanceSensorSubsystem m_DistanceSensorSubsystem = new distanceSensorSubsystem();
+    // The robot's subsystems and commands are defined here...
+    private final ControlPanelSubsystem m_controlPanelSubsystem = new ControlPanelSubsystem();
+    private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+    private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
+    private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
+    private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
+    private final distanceSensorSubsystem m_distanceSensorSubsystem = new distanceSensorSubsystem();
 
-  private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
-  private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+    private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
+    private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
 
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
+    }
 
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by instantiating a {@link GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-
-    // m_functionsController button uses
-  
+        // m_functionsController button uses
         whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::backQuarterSpeed);
         whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::backHalfSpeed);
-        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::backThreeQuarterSpeed); 
+        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::backThreeQuarterSpeed);
         whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
-    whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem:: frontQuarterSpeed);
-    whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontHalfSpeed);
-    whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontThreeQuarterSpeed); 
-    whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
-    whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
-    whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
+        whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
+        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontHalfSpeed);
+        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontThreeQuarterSpeed);
+        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
+        whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
+        whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
 
+        // Driver Controller
+        new JoystickButton(m_driverController, Button.kBumperRight.value)
+                .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem));
 
-    //Driver Controller
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
+        new JoystickButton(m_driverController, Button.kA.value)
+                .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
-    new JoystickButton(m_driverController, Button.kA.value)
-        .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
-   
-    new JoystickButton(m_driverController, Button.kBumperLeft.value)
-        .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
+        new JoystickButton(m_driverController, Button.kBumperLeft.value).whileHeld(
+                new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
 
-    //Defaults
-    m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
-    m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
-    m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
-    m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-    m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+        // Defaults
+        m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
+        m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
+        m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
+        m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
+        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
-        new JoystickButton(m_functionsController, button.value)
-        .whileHeld(new InstantCommand(runnable, subsystem)); 
+        new JoystickButton(m_functionsController, button.value).whileHeld(new InstantCommand(runnable, subsystem));
     }
 
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    
-  }
-  */
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     * 
+     *         public Command getAutonomousCommand() { // An ExampleCommand will run
+     *         in autonomous
+     * 
+     *         }
+     */
 }
