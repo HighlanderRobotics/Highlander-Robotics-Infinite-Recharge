@@ -65,41 +65,35 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // m_functionsController button uses
-    new JoystickButton(m_functionsController, Button.kBumperRight.value)
-        .whileHeld(new RunCommand(() -> m_shooterSubsystem.backQuarterSpeed(), m_shooterSubsystem).withTimeout(0.5));
-    new JoystickButton(m_functionsController, Button.kB.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backHalfSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kY.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backThreeQuarterSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kX.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kA.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontQuarterSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kB.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontHalfSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kY.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontThreeQuarterSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kX.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
-    
+  
+        whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::backQuarterSpeed);
+        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::backHalfSpeed);
+        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::backThreeQuarterSpeed); 
+        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
+    whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem:: frontQuarterSpeed);
+    whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontHalfSpeed);
+    whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontThreeQuarterSpeed); 
     whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
     whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
     whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
 
+
+    //Driver Controller
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
+
     new JoystickButton(m_driverController, Button.kA.value)
         .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
-
-    // m_driverController button uses
+   
     new JoystickButton(m_driverController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
 
+    //Defaults
     m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
     m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-    m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.closeValves(), m_pneumaticsSubsystem));
+    m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {

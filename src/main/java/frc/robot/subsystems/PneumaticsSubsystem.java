@@ -15,7 +15,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
     /**
      * Creates a new IntakeSubsytem.
      */
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(0, 1);
+    DoubleSolenoid solenoid1 = new DoubleSolenoid(1, 0);
     
     public PneumaticsSubsystem() {
         
