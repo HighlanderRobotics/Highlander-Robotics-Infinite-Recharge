@@ -21,6 +21,7 @@ import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.distanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  
 
@@ -76,10 +77,11 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontThreeQuarterSpeed(), m_shooterSubsystem));
     new JoystickButton(m_functionsController, Button.kX.value)
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kBumperLeft.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem));
-    new JoystickButton(m_functionsController, Button.kBumperLeft.value)
-        .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
+    
+    whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
+    whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
+    whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
+
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
     
@@ -91,6 +93,11 @@ public class RobotContainer {
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
     m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
+    }
+
+    private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
+        new JoystickButton(m_functionsController, button.value)
+        .whileHeld(new InstantCommand(runnable, subsystem)); 
     }
 
 
