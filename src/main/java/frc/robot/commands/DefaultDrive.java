@@ -10,13 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DefualtDrive extends CommandBase {
+public class DefaultDrive extends CommandBase {
   private final DriveSubsystem drive;
 
   /**
    * Creates a new DefualtDrive.
    */
-  public DefualtDrive(DriveSubsystem subsystem) {
+  public DefaultDrive(DriveSubsystem subsystem) {
     drive = subsystem;
     addRequirements(drive);
   }
