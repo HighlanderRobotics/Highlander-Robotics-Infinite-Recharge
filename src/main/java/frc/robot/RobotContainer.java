@@ -17,6 +17,7 @@ import frc.robot.commands.SensorSlowCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.distanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -25,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  
 
 /**
+ * 
+ * 
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
@@ -36,6 +39,7 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
   private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
+  private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
   private final distanceSensorSubsystem m_DistanceSensorSubsystem = new distanceSensorSubsystem();
 
   private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
@@ -82,7 +86,9 @@ public class RobotContainer {
         .whileHeld(new InstantCommand(() -> m_shooterSubsystem.backFullSpeed(), m_shooterSubsystem));
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whileHeld(new SensorSlowCommand(m_DistanceSensorSubsystem, m_driveSubsystem));
-    
+    new JoystickButton(m_driverController, Button.kA.value)
+        .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
+
     // m_driverController button uses
     new JoystickButton(m_driverController, Button.kBumperLeft.value)
         .whileHeld(new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
@@ -91,6 +97,7 @@ public class RobotContainer {
     m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
     m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
     m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
+    m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.closeValves(), m_pneumaticsSubsystem));
     }
 
 
