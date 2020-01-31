@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.distanceSensorSubsystem;
@@ -14,14 +15,17 @@ import frc.robot.subsystems.distanceSensorSubsystem;
 public class SensorSlowCommand extends CommandBase {
   private final distanceSensorSubsystem m_distanceSensorSubsystem;
   private final DriveSubsystem m_driveSubsystem;
+  private final XboxController driveController;
 
-  private int threshold = 30;
+  private int slowThreshold = 30;
+  private int stopThreshold = 4;
   /**
    * Creates a new SensorSlowCommand.
    */
-  public SensorSlowCommand(distanceSensorSubsystem DistanceSensorSubsystem, DriveSubsystem driveSubsystem) {
+  public SensorSlowCommand(distanceSensorSubsystem DistanceSensorSubsystem, DriveSubsystem driveSubsystem, XboxController xboxController) {
     m_driveSubsystem = driveSubsystem;
     m_distanceSensorSubsystem = DistanceSensorSubsystem;
+    driveController = xboxController;
     addRequirements(m_distanceSensorSubsystem, m_driveSubsystem);
   }
 
@@ -33,8 +37,9 @@ public class SensorSlowCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < threshold || m_distanceSensorSubsystem.getFrontLeftDistance() < threshold) {
-      m_driveSubsystem.straightDrive(0.25);
+      m_driveSubsystem.teleOpDrive(driveController);
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < slowThreshold || m_distanceSensorSubsystem.getFrontLeftDistance() < slowThreshold) {
+      m_driveSubsystem.teleOpDriveHalfSpeed(driveController);
     }
   }
 
@@ -46,10 +51,10 @@ public class SensorSlowCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < threshold || m_distanceSensorSubsystem.getFrontLeftDistance() < threshold) {
-      return false;
-    } else {
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold || m_distanceSensorSubsystem.getFrontLeftDistance() < stopThreshold) {
       return true;
+    } else {
+      return false;
     }
 
   }
