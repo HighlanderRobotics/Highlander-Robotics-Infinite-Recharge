@@ -34,9 +34,9 @@ public class AutoAim extends CommandBase {
   @Override
   public void execute() {
     if(m_limeLightSubsystem.getHorizontalOffset() > 10) {
-      m_driveSubsystem.turnDrive(0.3);
+      m_driveSubsystem.turnDriveAtSpeed(0.3);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -10) {
-      m_driveSubsystem.turnDrive(-0.3);
+      m_driveSubsystem.turnDriveAtSpeed(-0.3);
     } else {
       m_driveSubsystem.straightDrive(0.3);
     }
@@ -51,9 +51,6 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_limeLightSubsystem.getHorizontalOffset() < 10 || m_limeLightSubsystem.getHorizontalOffset() > -10)
-      return true;
-    else 
-      return false;
+    return m_limeLightSubsystem.getHorizontalOffset() < Math.abs(10);
   }
 }
