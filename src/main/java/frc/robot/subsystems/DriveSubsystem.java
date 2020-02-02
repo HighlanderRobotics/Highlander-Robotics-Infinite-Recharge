@@ -8,9 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.HIDType;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -22,15 +19,18 @@ public class DriveSubsystem extends SubsystemBase {
    
     private WPI_TalonSRX l1 = new WPI_TalonSRX(2), r1 = new WPI_TalonSRX(1);
     private WPI_VictorSPX l2= new WPI_VictorSPX(3), r2 = new WPI_VictorSPX(0);
-    private XboxController x1 = new XboxController(0);
     private SpeedControllerGroup left = new SpeedControllerGroup(l1,l2), right = new SpeedControllerGroup(r1,r2);
     private DifferentialDrive drive = new DifferentialDrive(left, right);
+    private final double SlowRotationConstant = 0.85;
+    private double speedMultiplier;
     
   /**
    * Creates a new DriveSubsystem.
+   * 
+   * Speed Multiplier starts at 1.0
    */
   public DriveSubsystem() {
-    
+    resetSpeedMultiplier();
   }
 
   @Override
@@ -39,12 +39,20 @@ public class DriveSubsystem extends SubsystemBase {
     
   }
 
-  public void teleOpDrive(XboxController controller) {
-    drive.arcadeDrive(-controller.getY(Hand.kLeft), controller.getX(Hand.kRight) * 0.85);
+  public void setSpeedMultiplier(double speedMultiplier) {
+    // Sets the speed multiplier. Can be used to slow down or speed up. 
+    // the parameter should be a double between 0.0 and 1.0
+    this.speedMultiplier = speedMultiplier;
   }
 
-  public void teleOpDriveHalfSpeed(XboxController controller) {
-    drive.arcadeDrive(-controller.getY(Hand.kLeft) / 2.0, (controller.getX(Hand.kRight) * 0.85) / 2.0);
+  public void resetSpeedMultiplier() {
+    // Defaults speedMultiplier to 1.0
+    speedMultiplier = 1.0;
+  }
+
+  public void teleOpDrive(double straightSpeed, double turnSpeed) {
+    // Drives at a forward speed and rotational speed
+    drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * SlowRotationConstant * speedMultiplier);
   }
 
   public void turnDriveAtSpeed(double speed) {

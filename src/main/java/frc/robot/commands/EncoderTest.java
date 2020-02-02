@@ -12,14 +12,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 public class EncoderTest extends CommandBase {
-    private final ControlPanelSubsystem m_controlPanelSubsystem;
-    private final Encoder encoder = new Encoder(0, 1);
-    public EncoderTest(ControlPanelSubsystem controlPanelSubsystem) {
-        m_controlPanelSubsystem = controlPanelSubsystem;
-        addRequirements(m_controlPanelSubsystem);
-        // Use addRequirements() here to declare subsystem dependencies.
-      }
-    @Override
+
+  private final ControlPanelSubsystem m_controlPanelSubsystem;
+  private final Encoder encoder = new Encoder(0, 1);
+
+  public EncoderTest(ControlPanelSubsystem controlPanelSubsystem) {
+      m_controlPanelSubsystem = controlPanelSubsystem;
+      addRequirements(m_controlPanelSubsystem);
+      // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  @Override
   public void initialize() {
     encoder.reset();
     encoder.setDistancePerPulse(1./1024.);
@@ -28,9 +31,8 @@ public class EncoderTest extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-            
-    }
+  public void execute() {        
+  }
 
   // Called once the command ends or is interrupted.
   @Override
