@@ -14,6 +14,7 @@ import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
 import frc.robot.commands.SensorSlowCommand;
+import frc.robot.commands.EncoderTest;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
@@ -73,13 +74,20 @@ public class RobotContainer {
         whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
+        
 
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
+<<<<<<< HEAD
                 .whileHeld(new InstantCommand(() -> m_distanceSensorSubsystem.getFrontRightDistance(), m_distanceSensorSubsystem));
 
+=======
+            .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
+        new JoystickButton(m_driverController, Button.kB.value)
+            .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
+>>>>>>> d6b32cb0e7fe63884191402200b43971dd9cdd39
         new JoystickButton(m_driverController, Button.kA.value)
-                .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
+            .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value).whileHeld(
                 new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
