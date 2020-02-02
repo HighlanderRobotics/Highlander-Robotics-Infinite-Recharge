@@ -7,51 +7,43 @@
 
 package frc.robot.commands;
 
-import java.util.Arrays;
-import java.util.List;
-
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
-public class ControlPanelPosition extends CommandBase {
-  private final ControlPanelSubsystem m_controlPanelSubsystem;
-    List<String> colors = Arrays.asList("R", "G", "B", "Y");
-    String color = colors.get((int)(Math.random()*4));
-    //randomColor.nextInt(4)
-  public ControlPanelPosition(ControlPanelSubsystem controlPanelSubsystem) {
-    m_controlPanelSubsystem = controlPanelSubsystem;
-    addRequirements(m_controlPanelSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
+public class EncoderTest extends CommandBase {
+    private final ControlPanelSubsystem m_controlPanelSubsystem;
+    private final Encoder encoder = new Encoder(0, 1);
+    public EncoderTest(ControlPanelSubsystem controlPanelSubsystem) {
+        m_controlPanelSubsystem = controlPanelSubsystem;
+        addRequirements(m_controlPanelSubsystem);
+        // Use addRequirements() here to declare subsystem dependencies.
+      }
+    @Override
   public void initialize() {
-    
+    encoder.reset();
+    encoder.setDistancePerPulse(1./1024.);
+    m_controlPanelSubsystem.quarterSpeed();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!m_controlPanelSubsystem.isMatchingColor(color))
-      m_controlPanelSubsystem.quarterSpeed();
-    else{
-      m_controlPanelSubsystem.zeroSpeed();
+            
     }
-  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    m_controlPanelSubsystem.zeroSpeed();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_controlPanelSubsystem.isMatchingColor(color))
-      return true;
+    if(encoder.getDistance() >= 1)
+        return true;
     else
-      return false;
+        return false;
   }
 }
