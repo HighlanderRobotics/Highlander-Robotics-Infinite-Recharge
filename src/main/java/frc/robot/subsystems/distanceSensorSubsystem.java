@@ -11,7 +11,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class distanceSensorSubsystem extends SubsystemBase {
+public class DistanceSensorSubsystem extends SubsystemBase {
   /**
    * Creates a new distanceSensorSubsystem.
    */
@@ -19,7 +19,7 @@ public class distanceSensorSubsystem extends SubsystemBase {
   private final Ultrasonic frontRight = new Ultrasonic(0, 1);
   //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
 
-  public distanceSensorSubsystem() {
+  public DistanceSensorSubsystem() {
     frontRight.setEnabled(true);
     //frontLeft.setAutomaticMode(false);
   }

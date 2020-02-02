@@ -7,25 +7,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.distanceSensorSubsystem;
+import frc.robot.subsystems.DistanceSensorSubsystem;
 
 public class SensorSlowCommand extends CommandBase {
-  private final distanceSensorSubsystem m_distanceSensorSubsystem;
+  private final DistanceSensorSubsystem m_distanceSensorSubsystem;
   private final DriveSubsystem m_driveSubsystem;
   private final XboxController driveController;
 
   private double slowThreshold = 30.0;
   private double stopThreshold = 1.5;
-  private double initReading;
+  private Timer readingDelay = new Timer();
+  private double currReading;
   /**
    * Creates a new SensorSlowCommand.
    */
-  public SensorSlowCommand(distanceSensorSubsystem DistanceSensorSubsystem, DriveSubsystem driveSubsystem, XboxController xboxController) {
+  public SensorSlowCommand(DistanceSensorSubsystem distanceSensorSubsystem, DriveSubsystem driveSubsystem, XboxController xboxController) {
     m_driveSubsystem = driveSubsystem;
-    m_distanceSensorSubsystem = DistanceSensorSubsystem;
+    m_distanceSensorSubsystem = distanceSensorSubsystem;
     driveController = xboxController;
     addRequirements(m_distanceSensorSubsystem, m_driveSubsystem);
   }
@@ -33,14 +35,15 @@ public class SensorSlowCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //initReading = m_distanceSensorSubsystem.getFrontRightDistance();
+    readingDelay.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold) {
+    currReading = m_distanceSensorSubsystem.getFrontRightDistance();
+    Timer.delay(0.2);
+    if(currReading < stopThreshold) {
       m_driveSubsystem.straightDrive(0.0);
     } else {
       m_driveSubsystem.straightDrive(0.25);

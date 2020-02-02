@@ -20,7 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
-import frc.robot.subsystems.distanceSensorSubsystem;
+import frc.robot.subsystems.DistanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -42,7 +42,7 @@ public class RobotContainer {
     private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
     private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
     private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
-    private final distanceSensorSubsystem m_distanceSensorSubsystem = new distanceSensorSubsystem();
+    private final DistanceSensorSubsystem m_distanceSensorSubsystem = new DistanceSensorSubsystem();
 
     private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
     private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
@@ -79,8 +79,10 @@ public class RobotContainer {
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
-        new JoystickButton(m_driverController, Button.kB.value)
-            .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
+            
+        //new JoystickButton(m_driverController, Button.kB.value)
+        //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
+
         new JoystickButton(m_driverController, Button.kA.value)
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
