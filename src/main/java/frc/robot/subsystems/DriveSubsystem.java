@@ -47,7 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
     drive.arcadeDrive(-controller.getY(Hand.kLeft) / 2.0, (controller.getX(Hand.kRight) * 0.85) / 2.0);
   }
 
-  public void turnDrive(double speed) {
+  public void turnDriveAtSpeed(double speed) {
     l1.set(ControlMode.PercentOutput, speed);
     l2.set(ControlMode.PercentOutput, speed);
     r1.set(ControlMode.PercentOutput, speed);
