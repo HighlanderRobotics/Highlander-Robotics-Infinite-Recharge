@@ -78,14 +78,9 @@ public class RobotContainer {
 
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
-<<<<<<< HEAD
-                .whileHeld(new InstantCommand(() -> m_distanceSensorSubsystem.getFrontRightDistance(), m_distanceSensorSubsystem));
-
-=======
             .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
         new JoystickButton(m_driverController, Button.kB.value)
             .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
->>>>>>> d6b32cb0e7fe63884191402200b43971dd9cdd39
         new JoystickButton(m_driverController, Button.kA.value)
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
