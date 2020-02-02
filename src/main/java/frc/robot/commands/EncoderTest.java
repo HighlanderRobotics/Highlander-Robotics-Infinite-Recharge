@@ -41,9 +41,6 @@ public class EncoderTest extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(encoder.getDistance() >= 1)
-        return true;
-    else
-        return false;
+    return encoder.getDistance() >= 1;
   }
 }
