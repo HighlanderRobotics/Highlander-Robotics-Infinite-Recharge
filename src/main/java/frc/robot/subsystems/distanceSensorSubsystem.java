@@ -17,11 +17,11 @@ public class distanceSensorSubsystem extends SubsystemBase {
    */
 
   private final Ultrasonic frontRight = new Ultrasonic(0, 1);
-  private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
+  //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
 
   public distanceSensorSubsystem() {
-    frontRight.setAutomaticMode(true);
-    frontLeft.setAutomaticMode(true);
+    frontRight.setEnabled(true);
+    //frontLeft.setAutomaticMode(false);
   }
 
   public double getFrontRightDistance() {
@@ -29,10 +29,12 @@ public class distanceSensorSubsystem extends SubsystemBase {
     return frontRight.getRangeInches();
   }
 
+ /*
   public double getFrontLeftDistance() {
     frontLeft.ping();
     return frontLeft.getRangeInches();
   }
+  */
 
   @Override
   public void periodic() {

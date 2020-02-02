@@ -17,8 +17,9 @@ public class SensorSlowCommand extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final XboxController driveController;
 
-  private int slowThreshold = 30;
-  private int stopThreshold = 4;
+  private double slowThreshold = 30.0;
+  private double stopThreshold = 1.5;
+  private double initReading;
   /**
    * Creates a new SensorSlowCommand.
    */
@@ -32,15 +33,19 @@ public class SensorSlowCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //initReading = m_distanceSensorSubsystem.getFrontRightDistance();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_driveSubsystem.teleOpDrive(driveController);
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < slowThreshold || m_distanceSensorSubsystem.getFrontLeftDistance() < slowThreshold) {
-      m_driveSubsystem.teleOpDriveHalfSpeed(driveController);
+    
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold) {
+      m_driveSubsystem.straightDrive(0.0);
+    } else {
+      m_driveSubsystem.straightDrive(0.25);
     }
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -51,11 +56,10 @@ public class SensorSlowCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold || m_distanceSensorSubsystem.getFrontLeftDistance() < stopThreshold) {
+    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold) {
       return true;
     } else {
       return false;
     }
-
   }
 }

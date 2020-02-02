@@ -68,15 +68,15 @@ public class RobotContainer {
         whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::backThreeQuarterSpeed);
         whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
-        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontHalfSpeed);
-        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontThreeQuarterSpeed);
-        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
+        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
+        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
+        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
 
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
-                .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
+                .whileHeld(new InstantCommand(() -> m_distanceSensorSubsystem.getFrontRightDistance(), m_distanceSensorSubsystem));
 
         new JoystickButton(m_driverController, Button.kA.value)
                 .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
