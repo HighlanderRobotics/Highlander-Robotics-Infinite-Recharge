@@ -21,10 +21,12 @@ import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * 
@@ -91,14 +93,14 @@ public class RobotContainer {
        //     .whenPressed(new InstantCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value).whileHeld(
-                new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
+                new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
 
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
         m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
-        m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(m_driverController), m_driveSubsystem));
+        m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(-m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kRight)), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+        //m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
@@ -115,4 +117,9 @@ public class RobotContainer {
      * 
      *         }
      */
+
+    public Command getAutonomousCommand() { 
+        // An ExampleCommand will run in autonomous
+        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0.5), m_driveSubsystem).withTimeout(10);
+    }
 }
