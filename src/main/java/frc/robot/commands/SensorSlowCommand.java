@@ -20,7 +20,7 @@ public class SensorSlowCommand extends CommandBase {
 
   private double slowThreshold = 30.0;
   private double stopThreshold = 1.5;
-  private Timer readingDelay = new Timer();
+  private Timer timeSinceLastReading = new Timer();
   private double currReading;
   /**
    * Creates a new SensorSlowCommand.
@@ -35,18 +35,21 @@ public class SensorSlowCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    readingDelay.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currReading = m_distanceSensorSubsystem.getFrontRightDistance();
-    Timer.delay(0.2);
-    if(currReading < stopThreshold) {
-      m_driveSubsystem.straightDrive(0.0);
-    } else {
+
+    if(timeSinceLastReading.get() >= 0.2) {
+      currReading = m_distanceSensorSubsystem.getFrontRightDistance();
+      timeSinceLastReading.reset();
+    }
+   
+    if(currReading < slowThreshold) {
       m_driveSubsystem.straightDrive(0.25);
+    } else {
+      m_driveSubsystem.straightDrive(0.5);
     }
   
   }
@@ -59,10 +62,6 @@ public class SensorSlowCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_distanceSensorSubsystem.getFrontRightDistance() < stopThreshold) {
-      return true;
-    } else {
-      return false;
-    }
+    return currReading < stopThreshold;
   }
 }

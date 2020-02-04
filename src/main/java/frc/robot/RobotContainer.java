@@ -86,6 +86,10 @@ public class RobotContainer {
         new JoystickButton(m_driverController, Button.kA.value)
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
+            
+       // new JoystickButton(m_driverController, Button.kB.value)
+       //     .whenPressed(new InstantCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+
         new JoystickButton(m_driverController, Button.kBumperLeft.value).whileHeld(
                 new InstantCommand(() -> m_driveSubsystem.teleOpDriveHalfSpeed(m_driverController), m_driveSubsystem));
 
