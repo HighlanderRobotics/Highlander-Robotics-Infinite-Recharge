@@ -17,6 +17,7 @@ import frc.robot.commands.SensorSlowCommand;
 import frc.robot.commands.EncoderTest;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
@@ -45,6 +46,7 @@ public class RobotContainer {
     private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
     private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
     private final DistanceSensorSubsystem m_distanceSensorSubsystem = new DistanceSensorSubsystem();
+    private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
     private final XboxController m_functionsController = new XboxController(Constants.FUNCTIONS_CONTROLLER_PORT);
     private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
@@ -66,26 +68,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // m_functionsController button uses
-        whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::backQuarterSpeed);
-        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::backHalfSpeed);
-        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::backThreeQuarterSpeed);
-        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
-        whileHeldFuncController(Button.kA, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
-        whileHeldFuncController(Button.kB, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
-        whileHeldFuncController(Button.kY, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
-        whileHeldFuncController(Button.kX, m_shooterSubsystem, m_shooterSubsystem::frontQuarterSpeed);
+        whileHeldFuncController(Button.kA, m_intakeSubsystem, m_intakeSubsystem::halfSpeed);
+        whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::fullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         
 
         // Driver Controller
-        new JoystickButton(m_driverController, Button.kBumperRight.value)
-            .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
-            
+        //new JoystickButton(m_driverController, Button.kBumperRight.value)
+        //    .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
         //new JoystickButton(m_driverController, Button.kB.value)
         //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
 
-        new JoystickButton(m_driverController, Button.kA.value)
+        new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
             
@@ -98,9 +93,10 @@ public class RobotContainer {
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
         m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
+        m_intakeSubsystem.setDefaultCommand(new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem));
         m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(-m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kRight)), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-        //m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {

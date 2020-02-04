@@ -7,18 +7,31 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class IntakeSubsytem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
   /**
    * Creates a new IntakeSubsytem.
    */
   private final VictorSPX intakeMotor = new VictorSPX(7);
 
-  public IntakeSubsytem() {
+  public IntakeSubsystem() {
 
+  }
+
+  public void zeroSpeed() {
+    intakeMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void halfSpeed() {
+    intakeMotor.set(ControlMode.PercentOutput, -0.5);
+  }
+
+  public void fullSpeed() {
+    intakeMotor.set(ControlMode.PercentOutput, -1);
   }
 
   @Override
