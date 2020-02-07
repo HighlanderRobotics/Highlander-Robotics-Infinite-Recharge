@@ -69,7 +69,9 @@ public class RobotContainer {
 
         // m_functionsController button uses
         whileHeldFuncController(Button.kA, m_intakeSubsystem, m_intakeSubsystem::halfSpeed);
-        whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::fullSpeed);
+        whileHeldFuncController(Button.kY, m_intakeSubsystem, m_intakeSubsystem::fullSpeed);
+        whileHeldFuncController(Button.kX, m_intakeSubsystem, m_intakeSubsystem::quarterSpeed);
+        whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         

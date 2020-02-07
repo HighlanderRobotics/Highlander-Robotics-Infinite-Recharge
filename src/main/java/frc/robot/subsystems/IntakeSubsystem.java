@@ -26,8 +26,16 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, 0);
   }
 
+  public void quarterSpeed() {
+    intakeMotor.set(ControlMode.PercentOutput, -0.25);
+  }
+
   public void halfSpeed() {
     intakeMotor.set(ControlMode.PercentOutput, -0.5);
+  }
+
+  public void threeQuarterSpeed() {
+    intakeMotor.set(ControlMode.PercentOutput, -0.75);
   }
 
   public void fullSpeed() {
