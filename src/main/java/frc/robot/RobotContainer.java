@@ -114,6 +114,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0.5), m_driveSubsystem).withTimeout(10);
+        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(10);
     }
 }
