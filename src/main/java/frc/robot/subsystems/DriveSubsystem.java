@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
    
@@ -21,7 +22,6 @@ public class DriveSubsystem extends SubsystemBase {
     private WPI_VictorSPX l2= new WPI_VictorSPX(3), r2 = new WPI_VictorSPX(0);
     private SpeedControllerGroup left = new SpeedControllerGroup(l1,l2), right = new SpeedControllerGroup(r1,r2);
     private DifferentialDrive drive = new DifferentialDrive(left, right);
-    private final double SlowRotationConstant = 0.85;
     private double speedMultiplier;
     private boolean toggle = true;
     
@@ -40,15 +40,15 @@ public class DriveSubsystem extends SubsystemBase {
     
   }
 
-  public void toggleMultiplier(double speedMultiplier) {
+  public void toggleMultiplier() {
     // Sets the speed multiplier. Can be used to slow down or speed up. 
     // the parameter should be a double between 0.0 and 1.0
     
     if(toggle)
-      this.speedMultiplier = speedMultiplier;
+      this.speedMultiplier = Constants.HALF_SPEED_MULTIPLIER;
     else
       resetSpeedMultiplier();
-    toggle != toggle;
+    toggle = !toggle;
   }
 
   public void resetSpeedMultiplier() {
@@ -58,7 +58,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
-    drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * SlowRotationConstant * speedMultiplier);
+    drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * speedMultiplier);
+    // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
+    // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }
 
   public void turnDriveAtSpeed(double speed) {

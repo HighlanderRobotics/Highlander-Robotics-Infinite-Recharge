@@ -84,7 +84,7 @@ public class RobotContainer {
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
-            .whileActiveOnce(new InstantCommand(() -> m_driveSubsystem.toggleMultiplier(0.5), m_driveSubsystem));
+            .whileActiveOnce(new InstantCommand(() -> m_driveSubsystem.toggleMultiplier(), m_driveSubsystem));
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
         //    .whenReleased(new InstantCommand(() -> m_driveSubsystem.resetSpeedMultiplier(), m_driveSubsystem));
 
