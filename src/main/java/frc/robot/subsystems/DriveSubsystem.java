@@ -23,7 +23,7 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDrive drive = new DifferentialDrive(left, right);
     private final double SlowRotationConstant = 0.85;
     private double speedMultiplier;
-    private int counter = 0;
+    private boolean toggle = true;
     
   /**
    * Creates a new DriveSubsystem.
@@ -44,11 +44,11 @@ public class DriveSubsystem extends SubsystemBase {
     // Sets the speed multiplier. Can be used to slow down or speed up. 
     // the parameter should be a double between 0.0 and 1.0
     
-    if(counter % 2 == 0)
+    if(toggle)
       this.speedMultiplier = speedMultiplier;
     else
       resetSpeedMultiplier();
-    counter++;
+    toggle != toggle;
   }
 
   public void resetSpeedMultiplier() {
