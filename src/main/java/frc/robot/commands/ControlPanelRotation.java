@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 public class ControlPanelRotation extends CommandBase {
-  private ControlPanelSubsystem m_controlPanelSubsystem = new ControlPanelSubsystem();
+  private final ControlPanelSubsystem m_controlPanelSubsystem;
   /**
    * Creates a new ControlPanelPosistion.
    */

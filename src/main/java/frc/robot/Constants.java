@@ -18,4 +18,6 @@ package frc.robot;
 public final class Constants {
     public static int FUNCTIONS_CONTROLLER_PORT = 0;
     public static int DRIVER_CONTROLLER_PORT = 1;
+    public static double HALF_SPEED_MULTIPLIER = 0.5;
+    public static double SLOW_TURN_MULTIPLE = 0.85;
 }

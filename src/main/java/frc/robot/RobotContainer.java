@@ -69,7 +69,9 @@ public class RobotContainer {
 
         // m_functionsController button uses
         whileHeldFuncController(Button.kA, m_intakeSubsystem, m_intakeSubsystem::halfSpeed);
-        whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::fullSpeed);
+        whileHeldFuncController(Button.kY, m_intakeSubsystem, m_intakeSubsystem::fullSpeed);
+        whileHeldFuncController(Button.kX, m_intakeSubsystem, m_intakeSubsystem::quarterSpeed);
+        whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         
@@ -84,7 +86,9 @@ public class RobotContainer {
             .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
-            .whileHeld(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
+            .whenPressed(new InstantCommand(() -> m_driveSubsystem.toggleMultiplier(), m_driveSubsystem));
+        //new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        //    .whenReleased(new InstantCommand(() -> m_driveSubsystem.resetSpeedMultiplier(), m_driveSubsystem));
 
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
@@ -112,6 +116,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0.5), m_driveSubsystem).withTimeout(10);
+        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(10);
     }
 }
