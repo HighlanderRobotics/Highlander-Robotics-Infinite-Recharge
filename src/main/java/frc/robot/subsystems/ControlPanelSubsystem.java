@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import frc.robot.Constants;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   
@@ -30,7 +31,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
   // ESC's
-  private VictorSPX panelMotor = new VictorSPX(4);
+  private VictorSPX panelMotor = new VictorSPX(Constants.CONTROLPANELSUBSYSTEM_VICTOR);
 
    /**
    * Creates a new ExampleSubsystem.

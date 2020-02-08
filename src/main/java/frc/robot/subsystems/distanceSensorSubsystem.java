@@ -8,15 +8,17 @@ package frc.robot.subsystems;
 
 
 
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DistanceSensorSubsystem extends SubsystemBase {
   /**
    * Creates a new distanceSensorSubsystem.
    */
 
-  private final Ultrasonic frontRight = new Ultrasonic(0, 1);
+  private final Ultrasonic frontRight = new Ultrasonic(Constants.PING_CHANNEL, Constants.ECHO_CHANNEL);
   //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
 
   public DistanceSensorSubsystem() {

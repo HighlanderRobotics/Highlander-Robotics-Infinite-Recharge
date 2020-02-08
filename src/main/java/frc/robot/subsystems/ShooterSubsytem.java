@@ -12,13 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsytem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsytem.
    */
-  private VictorSPX backShooter = new VictorSPX(5);
-  private VictorSPX frontShooter = new VictorSPX(6);
+  private VictorSPX backShooter = new VictorSPX(Constants.SHOOTERSUBSYSTEM_BACK_VICTOR);
+  private VictorSPX frontShooter = new VictorSPX(Constants.SHOOTERSUBSYSTEM_FRONT_VICTOR);
   
   
   public ShooterSubsytem() {
