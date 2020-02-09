@@ -24,7 +24,9 @@ import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -115,6 +117,9 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(10);
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(1),
+                new RunCommand(() -> m_intakeSubsystem.halfSpeed(), m_intakeSubsystem).withTimeout(3)));
     }
 }
