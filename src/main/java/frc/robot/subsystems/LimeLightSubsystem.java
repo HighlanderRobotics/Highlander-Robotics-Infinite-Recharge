@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class LimeLightSubsystem extends SubsystemBase {
 
-  public double horizontalOffset; //Horizontal offset
+  public double horizontalOffset; 
   public double verticalOffset;
   
   public LimeLightSubsystem() {

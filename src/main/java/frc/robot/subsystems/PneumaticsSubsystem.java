@@ -10,12 +10,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PneumaticsSubsystem extends SubsystemBase {
     /**
      * Creates a new IntakeSubsytem.
      */
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(1, 0);
+    DoubleSolenoid solenoid1 = new DoubleSolenoid(Constants.FORWARD_CHANNEL, Constants.REVERSE_CHANNEL);
     
     public PneumaticsSubsystem() {
         

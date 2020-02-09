@@ -38,4 +38,8 @@ public final class Constants {
     public static int SHOOTERSUBSYSTEM_BACK_VICTOR = 5;
     public static int SHOOTERSUBSYSTEM_FRONT_VICTOR = 6;
     public static int INTAKESUBSYSTEM_VICTOR = 7;
+
+    // Solenoids
+    public static int FORWARD_CHANNEL = 1;
+    public static int REVERSE_CHANNEL = 0;
 }
