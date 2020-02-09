@@ -7,9 +7,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -26,6 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
     private double speedMultiplier;
     private boolean toggle = true;
     private XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+    private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
+    private double kP = 1;
     
   /**
    * Creates a new DriveSubsystem.
@@ -47,6 +52,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getSpeedMultiplier() {
     return speedMultiplier;
+  }
+
+  public void gyroTankDrive() {
+    double error = -gyro.getRate();
+
+    drive.tankDrive(0.5 + kP * error, 0.5 - kP * error);
   }
 
   public void resetSpeedMultiplier() { 
