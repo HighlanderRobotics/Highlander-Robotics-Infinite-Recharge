@@ -76,7 +76,7 @@ public class RobotContainer {
         whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
-        whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendPiston);
+        whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
         
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
@@ -97,7 +97,7 @@ public class RobotContainer {
         m_intakeSubsystem.setDefaultCommand(new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem));
         m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.teleOpDrive(-m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kRight)), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractIntakePiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
@@ -120,6 +120,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
             new ParallelCommandGroup(
                 new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(1),
+                // new RunCommand() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem).withTimeout(3),
                 new RunCommand(() -> m_intakeSubsystem.halfSpeed(), m_intakeSubsystem).withTimeout(3)));
     }
 }
