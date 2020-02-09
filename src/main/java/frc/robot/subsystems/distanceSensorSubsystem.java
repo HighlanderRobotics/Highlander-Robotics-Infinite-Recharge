@@ -20,12 +20,11 @@ public class DistanceSensorSubsystem extends SubsystemBase {
   //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
 
   public DistanceSensorSubsystem() {
-    frontRight.setEnabled(true);
+    frontRight.setAutomaticMode(true);
     //frontLeft.setAutomaticMode(false);
   }
 
   public double getFrontRightDistance() {
-    frontRight.ping();
     return frontRight.getRangeInches();
   }
 

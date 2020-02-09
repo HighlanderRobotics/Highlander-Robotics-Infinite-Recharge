@@ -20,12 +20,9 @@ public class ShooterSubsytem extends SubsystemBase {
   private VictorSPX backShooter = new VictorSPX(5);
   private VictorSPX frontShooter = new VictorSPX(6);
   
-  
   public ShooterSubsytem() {
     
   }
-
-  
 
   public void zeroSpeed() {
     backShooter.set(ControlMode.PercentOutput, 0.0);

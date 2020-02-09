@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
@@ -16,11 +17,10 @@ import frc.robot.subsystems.DistanceSensorSubsystem;
 public class SensorSlowCommand extends CommandBase {
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
   private final DriveSubsystem m_driveSubsystem;
-  private final XboxController driveController;
 
   private double slowThreshold = 30.0;
-  private double stopThreshold = 1.5;
-  private Timer timeSinceLastReading = new Timer();
+  private double stopThreshold = 4.0;
+  private Timer timeSinceLastReading;
   private double currReading;
   /**
    * Creates a new SensorSlowCommand.
@@ -28,28 +28,31 @@ public class SensorSlowCommand extends CommandBase {
   public SensorSlowCommand(DistanceSensorSubsystem distanceSensorSubsystem, DriveSubsystem driveSubsystem, XboxController xboxController) {
     m_driveSubsystem = driveSubsystem;
     m_distanceSensorSubsystem = distanceSensorSubsystem;
-    driveController = xboxController;
+    timeSinceLastReading = new Timer();
     addRequirements(m_distanceSensorSubsystem, m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timeSinceLastReading.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if(timeSinceLastReading.get() >= 0.2) {
+    SmartDashboard.putNumber("Timer", timeSinceLastReading.get());
+
+    if(timeSinceLastReading.get() >= 0.0002) {
       currReading = m_distanceSensorSubsystem.getFrontRightDistance();
       timeSinceLastReading.reset();
-    }
+    } 
    
     if(currReading < slowThreshold) {
-      m_driveSubsystem.straightDrive(0.25);
-    } else {
       m_driveSubsystem.straightDrive(0.5);
+    } else {
+      m_driveSubsystem.straightDrive(1.0);
     }
   
   }
@@ -62,6 +65,9 @@ public class SensorSlowCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return currReading < stopThreshold;
+    if(currReading <= stopThreshold) 
+      return true;
+    else 
+      return false;
   }
 }

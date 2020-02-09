@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -24,6 +25,7 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDrive drive = new DifferentialDrive(left, right);
     private double speedMultiplier;
     private boolean toggle = true;
+    private XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
     
   /**
    * Creates a new DriveSubsystem.
@@ -40,6 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
     
   }
 
+  
   public void toggleMultiplier() {
     // Sets the speed multiplier. Can be used to slow down or speed up. 
     // the parameter should be a double between 0.0 and 1.0
@@ -51,14 +54,22 @@ public class DriveSubsystem extends SubsystemBase {
     toggle = !toggle;
   }
 
-  public void resetSpeedMultiplier() {
+  public void setSpeedMultiplier(Double speed) {
+    speedMultiplier = speed;
+  }
+
+  public double getSpeedMultiplier() {
+    return speedMultiplier;
+  }
+
+  public void resetSpeedMultiplier() { 
     // Defaults speedMultiplier to 1.0
     speedMultiplier = 1.0;
   }
 
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
-    drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * speedMultiplier);
+    drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * 0.85) * speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }
