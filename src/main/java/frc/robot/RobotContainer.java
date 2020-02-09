@@ -74,25 +74,20 @@ public class RobotContainer {
         whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
+        whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendPiston);
         
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, m_driverController));
+            
         //new JoystickButton(m_driverController, Button.kB.value)
         //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
-
-        //new JoystickButton(m_driverController, Button.kBumperRight.value)
-        //    .whileHeld(new InstantCommand(() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
             .whenPressed(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
-            .whenReleased(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(1.0), m_driveSubsystem));;
-
-        //new JoystickButton(m_driverController, Button.kBumperLeft.value)
-        //    .whileHeld(new InstantCommand(() -> m_driveSubsystem.toggleMultiplier(), m_driveSubsystem));
-        
+            .whenReleased(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(1.0), m_driveSubsystem));
 
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));

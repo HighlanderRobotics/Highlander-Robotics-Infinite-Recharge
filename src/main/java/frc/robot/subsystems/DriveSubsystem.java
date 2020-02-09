@@ -39,19 +39,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
-    
-  }
-
-  
-  public void toggleMultiplier() {
-    // Sets the speed multiplier. Can be used to slow down or speed up. 
-    // the parameter should be a double between 0.0 and 1.0
-    
-    if(toggle)
-      this.speedMultiplier = Constants.HALF_SPEED_MULTIPLIER;
-    else
-      resetSpeedMultiplier();
-    toggle = !toggle;
   }
 
   public void setSpeedMultiplier(Double speed) {

@@ -44,15 +44,15 @@ public class SensorSlowCommand extends CommandBase {
 
     SmartDashboard.putNumber("Timer", timeSinceLastReading.get());
 
-    if(timeSinceLastReading.get() >= 0.0002) {
+    if(timeSinceLastReading.get() >= 0.02) {
       currReading = m_distanceSensorSubsystem.getFrontRightDistance();
       timeSinceLastReading.reset();
     } 
    
     if(currReading < slowThreshold) {
-      m_driveSubsystem.straightDrive(0.5);
+      m_driveSubsystem.setSpeedMultiplier(0.5);
     } else {
-      m_driveSubsystem.straightDrive(1.0);
+      m_driveSubsystem.setSpeedMultiplier(1.0);
     }
   
   }
@@ -60,14 +60,12 @@ public class SensorSlowCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_driveSubsystem.setSpeedMultiplier(1.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(currReading <= stopThreshold) 
-      return true;
-    else 
-      return false;
+    return currReading <= stopThreshold;
   }
 }
