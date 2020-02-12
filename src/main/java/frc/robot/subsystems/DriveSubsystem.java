@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -26,6 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
     private double speedMultiplier;
     private boolean toggle = true;
     private XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     
   /**
    * Creates a new DriveSubsystem.
@@ -57,6 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
     drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * 0.85) * speedMultiplier);
+    logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }
@@ -74,5 +78,4 @@ public class DriveSubsystem extends SubsystemBase {
     r1.set(ControlMode.PercentOutput, speed);
     r2.set(ControlMode.PercentOutput, speed);
   }
-
 }
