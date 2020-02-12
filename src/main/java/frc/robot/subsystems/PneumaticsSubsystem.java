@@ -10,27 +10,37 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PneumaticsSubsystem extends SubsystemBase {
     /**
      * Creates a new IntakeSubsytem.
      */
-    DoubleSolenoid solenoid1 = new DoubleSolenoid(1, 0);
+    DoubleSolenoid solenoidI = new DoubleSolenoid(Constants.INTAKE_FORWARD_CHANNEL, Constants.INTAKE_REVERSE_CHANNEL);
+    DoubleSolenoid solenoidCP = new DoubleSolenoid(Constants.CONTROLPANEL_FORWARD_CHANNEL, Constants.CONTROLPANEL_REVERSE_CHANNEL);
     
     public PneumaticsSubsystem() {
         
     }
   
-    public void extendPiston() {
-        solenoid1.set(kForward);
+    public void extendIntakePiston() {
+        solenoidI.set(kForward);
     }
 
-    public void retractPiston() {
-        solenoid1.set(kReverse);
+    public void retractIntakePiston() {
+        solenoidI.set(kReverse);
     }
+
+    public void extendControlPanelPiston() {
+      solenoidCP.set(kForward);
+  }
+
+  public void retractControlPanel() {
+      solenoidCP.set(kReverse);
+  }
 
     public void closeValves() {
-      solenoid1.set(kOff);
+      solenoidI.set(kOff);
     }
 
     @Override

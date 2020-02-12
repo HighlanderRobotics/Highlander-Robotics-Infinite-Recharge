@@ -24,7 +24,9 @@ import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -75,7 +77,7 @@ public class RobotContainer {
         whileHeldFuncController(Button.kB, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::frontFullSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
-        whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendPiston);
+        whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
         
         // Driver Controller
         new JoystickButton(m_driverController, Button.kBumperRight.value)
@@ -96,7 +98,7 @@ public class RobotContainer {
         m_intakeSubsystem.setDefaultCommand(new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem));
         m_driveSubsystem.setDefaultCommand(new RunCommand(teleOpDriveFn, m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
-        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractPiston(), m_pneumaticsSubsystem));
+        m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractIntakePiston(), m_pneumaticsSubsystem));
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
@@ -116,6 +118,10 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        return new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(10);
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new RunCommand(() -> m_driveSubsystem.teleOpDrive(0.5, 0), m_driveSubsystem).withTimeout(1),
+                // new RunCommand() -> m_pneumaticsSubsystem.extendPiston(), m_pneumaticsSubsystem).withTimeout(3),
+                new RunCommand(() -> m_intakeSubsystem.halfSpeed(), m_intakeSubsystem).withTimeout(3)));
     }
 }

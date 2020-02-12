@@ -17,7 +17,7 @@ package frc.robot;
  */
 public final class Constants {
 
-    // Controllers
+	// Controllers
     public static int FUNCTIONS_CONTROLLER_PORT = 0;
     public static int DRIVER_CONTROLLER_PORT = 1;
 
@@ -38,4 +38,10 @@ public final class Constants {
     public static int SHOOTERSUBSYSTEM_BACK_VICTOR = 5;
     public static int SHOOTERSUBSYSTEM_FRONT_VICTOR = 6;
     public static int INTAKESUBSYSTEM_VICTOR = 7;
+
+    // Solenoids
+    public static int INTAKE_FORWARD_CHANNEL = 1;
+    public static int INTAKE_REVERSE_CHANNEL = 0;
+    public static final int CONTROLPANEL_FORWARD_CHANNEL = 3;
+	public static final int CONTROLPANEL_REVERSE_CHANNEL = 2;
 }
