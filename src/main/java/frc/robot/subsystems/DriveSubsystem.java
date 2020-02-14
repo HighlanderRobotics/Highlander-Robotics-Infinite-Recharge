@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
@@ -29,8 +30,8 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDrive drive = new DifferentialDrive(left, right);
     private double speedMultiplier;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
-    private double kP = 1;
+    private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+    private double kP = .0005;
     
   /**
    * Creates a new DriveSubsystem.
@@ -56,8 +57,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void gyroTankDrive() {
     double error = -gyro.getRate();
+    SmartDashboard.putNumber("gyro", error);
 
-    drive.tankDrive(0.5 + kP * error, 0.5 - kP * error);
+    drive.tankDrive(0.25 + kP * error, 0.25 - kP * error);
   }
 
   public void resetSpeedMultiplier() { 
