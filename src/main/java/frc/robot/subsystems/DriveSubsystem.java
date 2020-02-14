@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
@@ -29,8 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
     private SpeedControllerGroup left = new SpeedControllerGroup(l1,l2), right = new SpeedControllerGroup(r1,r2);
     private DifferentialDrive drive = new DifferentialDrive(left, right);
     private double speedMultiplier;
-    private boolean toggle = true;
-    private XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
     private double kP = 1;
     
@@ -70,6 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
     drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * Constants.SLOW_TURN_MULTIPLE) * speedMultiplier);
+    logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }
