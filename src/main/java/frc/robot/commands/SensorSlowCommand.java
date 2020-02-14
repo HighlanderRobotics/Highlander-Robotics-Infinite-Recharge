@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
@@ -19,8 +18,6 @@ public class SensorSlowCommand extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
 
   private double slowThreshold = 30.0;
-  private double stopThreshold = 10.0;
-  private double endThreshold = 5.0;
   private Timer timeSinceLastReading;
   private double currReading;
   private final Runnable teleOpDriveFn;
