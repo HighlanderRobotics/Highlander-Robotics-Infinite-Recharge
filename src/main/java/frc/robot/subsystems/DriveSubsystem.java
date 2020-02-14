@@ -31,12 +31,8 @@ public class DriveSubsystem extends SubsystemBase {
     private double speedMultiplier;
     private boolean toggle = true;
     private XboxController driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
-<<<<<<< HEAD
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-=======
     private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kMXP);
     private double kP = 1;
->>>>>>> fcc6bfed8678ee2b749d7502d98070860d9f89bb
     
   /**
    * Creates a new DriveSubsystem.
@@ -73,12 +69,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
-<<<<<<< HEAD
-    drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * 0.85) * speedMultiplier);
-    logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
-=======
     drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * Constants.SLOW_TURN_MULTIPLE) * speedMultiplier);
->>>>>>> fcc6bfed8678ee2b749d7502d98070860d9f89bb
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }
