@@ -69,7 +69,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
-    drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * 0.85) * speedMultiplier);
+    drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * Constants.SLOW_TURN_MULTIPLE) * speedMultiplier);
     logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.

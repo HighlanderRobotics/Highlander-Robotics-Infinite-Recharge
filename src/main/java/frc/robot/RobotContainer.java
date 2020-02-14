@@ -79,6 +79,8 @@ public class RobotContainer {
         new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
             
+        new JoystickButton(m_driverController, Button.kA.value)
+            .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
         //new JoystickButton(m_driverController, Button.kB.value)
         //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
 

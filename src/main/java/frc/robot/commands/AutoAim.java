@@ -33,12 +33,15 @@ public class AutoAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_limeLightSubsystem.getHorizontalOffset() > 10) {
+    if(m_limeLightSubsystem.getHorizontalOffset() > 7) {
       m_driveSubsystem.turnDriveAtSpeed(0.3);
-    } else if(m_limeLightSubsystem.getHorizontalOffset() < -10) {
+    } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
       m_driveSubsystem.turnDriveAtSpeed(-0.3);
     } else {
-      m_driveSubsystem.straightDrive(0.3);
+      if(m_limeLightSubsystem.getArea() > 10)
+        m_driveSubsystem.straightDrive(-0.3);
+      else 
+        m_driveSubsystem.straightDrive(0);
     }
     
   }
