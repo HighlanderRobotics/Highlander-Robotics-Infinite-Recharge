@@ -32,6 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
     private double kP = .0005;
+    private double heading = gyro.getAngle();
     
   /**
    * Creates a new DriveSubsystem.
@@ -56,10 +57,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void gyroTankDrive() {
-    double error = -gyro.getRate();
-    SmartDashboard.putNumber("gyro", error);
+    double error = heading - gyro.getAngle();
 
-    drive.tankDrive(0.25 + kP * error, 0.25 - kP * error);
+    // Drives forward continuously at half speed, using the gyro to stabilize the heading
+    drive.tankDrive(.5 + kP * error, .5 - kP * error);
   }
 
   public void resetSpeedMultiplier() { 
