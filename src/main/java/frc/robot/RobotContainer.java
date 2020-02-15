@@ -119,7 +119,8 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
 
         return new SequentialCommandGroup(
-            new RunCommand(() -> m_driveSubsystem.gyroTankDrive(), m_driveSubsystem).withTimeout(5),
+            new AutoAim(m_driveSubsystem, m_limelightSubsystem),
+            new RunCommand(() -> m_driveSubsystem.gyroTankDrive(), m_driveSubsystem).withTimeout(1),
             new ParallelCommandGroup(
                 new RunCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem).withTimeout(3),
                 new RunCommand(() -> m_shooterSubsystem.backThreeQuarterSpeed(), m_shooterSubsystem).withTimeout(3)));
