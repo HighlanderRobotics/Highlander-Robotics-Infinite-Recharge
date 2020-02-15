@@ -56,7 +56,6 @@ public class LimeLightSubsystem extends SubsystemBase {
 
     horizontalOffset = x;
     verticalOffset = y;
-    areaOffset = area;
 
   }
   public double getArea() {

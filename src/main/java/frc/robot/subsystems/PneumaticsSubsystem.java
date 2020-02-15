@@ -35,7 +35,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
       solenoidCP.set(kForward);
   }
 
-  public void retractControlPanel() {
+  public void retractControlPanelPiston() {
       solenoidCP.set(kReverse);
   }
 
