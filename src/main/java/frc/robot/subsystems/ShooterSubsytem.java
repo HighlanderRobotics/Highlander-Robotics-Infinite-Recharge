@@ -30,35 +30,35 @@ public class ShooterSubsytem extends SubsystemBase {
   }
 
   public void backQuarterSpeed() {
-    backShooter.set(ControlMode.PercentOutput, 0.25);
+    backShooter.set(ControlMode.PercentOutput, -0.25);
   }
 
   public void frontQuarterSpeed() {
-    frontShooter.set(ControlMode.PercentOutput, -0.25);
+    frontShooter.set(ControlMode.PercentOutput, 0.25);
   }
 
   public void backHalfSpeed() {
-    backShooter.set(ControlMode.PercentOutput, 0.5);
+    backShooter.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void frontHalfSpeed() {
-    frontShooter.set(ControlMode.PercentOutput, -0.5);
+    frontShooter.set(ControlMode.PercentOutput, 0.5);
   }
 
   public void backThreeQuarterSpeed() {
-    backShooter.set(ControlMode.PercentOutput, 0.75);
+    backShooter.set(ControlMode.PercentOutput, -0.75);
   }
 
   public void frontThreeQuarterSpeed() {
-    frontShooter.set(ControlMode.PercentOutput, -0.75);
+    frontShooter.set(ControlMode.PercentOutput, 0.75);
   }
 
   public void backFullSpeed() {
-    backShooter.set(ControlMode.PercentOutput, 1.0);
+    backShooter.set(ControlMode.PercentOutput, -1.0);
   }
 
   public void frontFullSpeed() {
-    frontShooter.set(ControlMode.PercentOutput, -1.0);
+    frontShooter.set(ControlMode.PercentOutput, 1.0);
   }
 
   @Override

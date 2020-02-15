@@ -38,7 +38,7 @@ public class AutoAim extends CommandBase {
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
       m_driveSubsystem.turnDriveAtSpeed(-0.3);
     } else {
-      if(m_limeLightSubsystem.getArea() > 10)
+      if(m_limeLightSubsystem.getArea() < 25)
         m_driveSubsystem.straightDrive(-0.3);
       else 
         m_driveSubsystem.straightDrive(0);
