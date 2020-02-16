@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -42,7 +42,7 @@ public class RobotContainer {
     private final ControlPanelSubsystem m_controlPanelSubsystem = new ControlPanelSubsystem();
     private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
     private final LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
-    private final ShooterSubsytem m_shooterSubsystem = new ShooterSubsytem();
+    private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
     private final DistanceSensorSubsystem m_distanceSensorSubsystem = new DistanceSensorSubsystem();
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -51,6 +51,7 @@ public class RobotContainer {
     private final XboxController m_driverController = new XboxController(Constants.DRIVER_CONTROLLER_PORT);
     private final Runnable teleOpDriveFn = () -> m_driveSubsystem.teleOpDrive(-m_driverController.getY(Hand.kLeft), m_driverController.getX(Hand.kRight));
 
+    private boolean givingBalls = true; //set at beginning
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -94,7 +95,7 @@ public class RobotContainer {
         m_shooterSubsystem.setDefaultCommand(new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem));
         m_intakeSubsystem.setDefaultCommand(new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem));
         //m_driveSubsystem.setDefaultCommand(new RunCommand(teleOpDriveFn, m_driveSubsystem));
-        m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.gyroTankDrive(), m_driveSubsystem));
+        m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
         m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractIntakePiston(), m_pneumaticsSubsystem));
         m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractControlPanelPiston(), m_pneumaticsSubsystem));
@@ -120,7 +121,7 @@ public class RobotContainer {
 
         return new SequentialCommandGroup(
             new AutoAim(m_driveSubsystem, m_limelightSubsystem),
-            new RunCommand(() -> m_driveSubsystem.gyroTankDrive(), m_driveSubsystem).withTimeout(1),
+            new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem).withTimeout(1),
             new ParallelCommandGroup(
                 new RunCommand(() -> m_shooterSubsystem.frontFullSpeed(), m_shooterSubsystem).withTimeout(3),
                 new RunCommand(() -> m_shooterSubsystem.backThreeQuarterSpeed(), m_shooterSubsystem).withTimeout(3)));

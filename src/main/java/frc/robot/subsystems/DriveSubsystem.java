@@ -56,11 +56,16 @@ public class DriveSubsystem extends SubsystemBase {
     return speedMultiplier;
   }
 
-  public void gyroTankDrive() {
+  public void driveStraight() {
     double error = heading - gyro.getAngle();
 
     // Drives forward continuously at half speed, using the gyro to stabilize the heading
     drive.tankDrive(.5 + kP * error, .5 - kP * error);
+  }
+
+  public void turnToAngle(int prospectiveAngle){
+    double error = prospectiveAngle - gyro.getAngle();
+    drive.tankDrive(kP * error, -kP * error);
   }
 
   public void resetSpeedMultiplier() { 

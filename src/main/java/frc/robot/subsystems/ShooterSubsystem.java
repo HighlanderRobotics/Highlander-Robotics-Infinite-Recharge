@@ -13,20 +13,24 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterSubsytem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
   /**
    * Creates a new ShooterSubsytem.
    */
   private VictorSPX backShooter = new VictorSPX(Constants.SHOOTERSUBSYSTEM_BACK_VICTOR);
   private VictorSPX frontShooter = new VictorSPX(Constants.SHOOTERSUBSYSTEM_FRONT_VICTOR);
   
-  public ShooterSubsytem() {
+  public ShooterSubsystem() {
     
   }
 
   public void zeroSpeed() {
     backShooter.set(ControlMode.PercentOutput, 0.0);
     frontShooter.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public void frontGiveBallSpeed() {
+    frontShooter.set(ControlMode.PercentOutput, 0.1);
   }
 
   public void backQuarterSpeed() {
