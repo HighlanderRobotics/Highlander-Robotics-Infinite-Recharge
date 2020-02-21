@@ -42,6 +42,6 @@ public final class Constants {
     // Solenoids
     public static int INTAKE_FORWARD_CHANNEL = 4;
     public static int INTAKE_REVERSE_CHANNEL = 5;
-    public static final int CONTROLPANEL_FORWARD_CHANNEL = 6;
-	public static final int CONTROLPANEL_REVERSE_CHANNEL = 7;
+    public static final int CONTROLPANEL_FORWARD_CHANNEL = 7;
+	public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
 }
