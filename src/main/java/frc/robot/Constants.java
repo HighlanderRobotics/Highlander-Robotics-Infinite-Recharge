@@ -30,10 +30,10 @@ public final class Constants {
     public static int ECHO_CHANNEL = 1;
 
     // Motors
-    public static int DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR = 0;
-    public static int DRIVESUBSYSTEM_RIGHT_BACK_TALON = 1;
-    public static int DRIVESUBSYSTEM_LEFT_BACK_TALON = 2;
-    public static int DRIVESUBSYSTEM_LEFT_FRONT_VICTOR = 3;
+    public static int DRIVESUBSYSTEM_LEFT_BACK_TALON = 0;
+    public static int DRIVESUBSYSTEM_LEFT_FRONT_VICTOR = 1;
+    public static int DRIVESUBSYSTEM_RIGHT_BACK_TALON = 2;
+    public static int DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR = 3;
     public static int CONTROLPANELSUBSYSTEM_VICTOR = 4;
     public static int SHOOTERSUBSYSTEM_BACK_VICTOR = 5;
     public static int SHOOTERSUBSYSTEM_FRONT_VICTOR = 6;
