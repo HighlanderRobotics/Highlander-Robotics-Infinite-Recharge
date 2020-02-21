@@ -65,6 +65,11 @@ public class ShooterSubsystem extends SubsystemBase {
     frontShooter.set(ControlMode.PercentOutput, 1.0);
   }
 
+  public void shoot() {
+    frontShooter.set(ControlMode.PercentOutput, 1.0);
+    backShooter.set(ControlMode.PercentOutput, 0.75);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
