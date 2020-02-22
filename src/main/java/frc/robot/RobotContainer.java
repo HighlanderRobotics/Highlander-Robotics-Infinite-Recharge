@@ -77,15 +77,16 @@ public class RobotContainer {
         whileHeldFuncController(Button.kX, m_controlPanelSubsystem, m_controlPanelSubsystem::halfSpeed);
         
         // Driver Controller
-        new JoystickButton(m_driverController, Button.kBumperRight.value)
-            .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
+        //new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        //    .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
+
+        new JoystickButton(m_driverController, Button.kBumperLeft.value)
+            .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
             
         new JoystickButton(m_driverController, Button.kA.value)
             .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
-        //new JoystickButton(m_driverController, Button.kB.value)
-        //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
 
-        new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whenPressed(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
@@ -118,9 +119,14 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-
+        /*
+        return new SequentialCommandGroup(
+            new RunCommand(() -> m_driveSubsystem.straightDrive(0.5), m_driveSubsystem).withTimeout(2.0)
+        );
+        */
+        
         return new SequentialCommandGroup(
             new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
-            new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7));
+            new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7.0));
     }
 }
