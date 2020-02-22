@@ -10,14 +10,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+
 
 public class IntakeSubsystem extends SubsystemBase {
   /**
    * Creates a new IntakeSubsytem.
    */
   private final VictorSPX intakeMotor = new VictorSPX(Constants.INTAKESUBSYSTEM_VICTOR);
+
 
   public IntakeSubsystem() {
 

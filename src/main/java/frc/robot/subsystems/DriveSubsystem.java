@@ -24,9 +24,12 @@ import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
    
-    private WPI_TalonSRX l1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_LEFT_BACK_TALON), r1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_RIGHT_BACK_TALON);
-    private WPI_VictorSPX l2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_LEFT_FRONT_VICTOR), r2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR);
-    private SpeedControllerGroup left = new SpeedControllerGroup(l1,l2), right = new SpeedControllerGroup(r1,r2);
+    private WPI_TalonSRX l1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_LEFT_BACK_TALON); 
+    private WPI_VictorSPX l2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_LEFT_FRONT_VICTOR);
+    private WPI_TalonSRX r1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_RIGHT_BACK_TALON);
+    private WPI_VictorSPX r2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR);
+    private SpeedControllerGroup left = new SpeedControllerGroup(l1,l2);
+    private SpeedControllerGroup right = new SpeedControllerGroup(r1,r2);
     private DifferentialDrive drive = new DifferentialDrive(left, right);
     private double speedMultiplier;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -76,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
     drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * Constants.SLOW_TURN_MULTIPLE) * speedMultiplier);
-    logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
+    //logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
   }

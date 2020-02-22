@@ -16,31 +16,33 @@ public class PneumaticsSubsystem extends SubsystemBase {
     /**
      * Creates a new IntakeSubsytem.
      */
-    DoubleSolenoid solenoidI = new DoubleSolenoid(Constants.INTAKE_FORWARD_CHANNEL, Constants.INTAKE_REVERSE_CHANNEL);
-    DoubleSolenoid solenoidCP = new DoubleSolenoid(Constants.CONTROLPANEL_FORWARD_CHANNEL, Constants.CONTROLPANEL_REVERSE_CHANNEL);
+    DoubleSolenoid solenoidCP = new DoubleSolenoid(0, Constants.CONTROLPANEL_FORWARD_CHANNEL, Constants.CONTROLPANEL_REVERSE_CHANNEL);
+    DoubleSolenoid solenoidI = new DoubleSolenoid(0, Constants.INTAKE_FORWARD_CHANNEL, Constants.INTAKE_REVERSE_CHANNEL);
+
     
     public PneumaticsSubsystem() {
         
     }
-  
-    public void extendIntakePiston() {
-        solenoidI.set(kForward);
+
+    public void retractBothPistons() {
+      solenoidCP.set(kReverse);
+      solenoidI.set(kReverse);
     }
 
+    public void extendIntakePiston() {
+      solenoidI.set(kForward);
+    }
+  
     public void retractIntakePiston() {
-        solenoidI.set(kReverse);
+      solenoidI.set(kReverse);
     }
 
     public void extendControlPanelPiston() {
-      solenoidCP.set(kForward);
-  }
-
-  public void retractControlPanelPiston() {
       solenoidCP.set(kReverse);
-  }
-
-    public void closeValves() {
-      solenoidI.set(kOff);
+    }
+  
+    public void retractControlPanelPiston() {
+      solenoidCP.set(kForward);
     }
 
     @Override

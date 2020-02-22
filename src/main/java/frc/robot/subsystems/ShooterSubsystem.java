@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void frontFullSpeed() {
-    frontShooter.set(ControlMode.PercentOutput, 1.0);
+    frontShooter.set(ControlMode.PercentOutput, -1.0);
   }
 
   public void shoot() {

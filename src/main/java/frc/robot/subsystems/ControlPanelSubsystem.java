@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 import frc.robot.Constants;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   
@@ -32,6 +34,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // ESC's
   private VictorSPX panelMotor = new VictorSPX(Constants.CONTROLPANELSUBSYSTEM_VICTOR);
 
+  //Pistons
+
+
    /**
    * Creates a new ExampleSubsystem.
    */
@@ -42,6 +47,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
   }
+
 
   public void zeroSpeed() {
     panelMotor.set(ControlMode.PercentOutput, 0.0);

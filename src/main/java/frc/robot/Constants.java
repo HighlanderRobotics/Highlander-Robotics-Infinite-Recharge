@@ -32,16 +32,16 @@ public final class Constants {
     // Motors
     public static int DRIVESUBSYSTEM_LEFT_BACK_TALON = 0;
     public static int DRIVESUBSYSTEM_LEFT_FRONT_VICTOR = 1;
-    public static int DRIVESUBSYSTEM_RIGHT_BACK_TALON = 2;
-    public static int DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR = 3;
+    public static int DRIVESUBSYSTEM_RIGHT_BACK_TALON = 3;
+    public static int DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR = 2;
     public static int CONTROLPANELSUBSYSTEM_VICTOR = 4;
     public static int SHOOTERSUBSYSTEM_BACK_VICTOR = 5;
     public static int SHOOTERSUBSYSTEM_FRONT_VICTOR = 6;
     public static int INTAKESUBSYSTEM_VICTOR = 7;
 
     // Solenoids
-    public static int INTAKE_FORWARD_CHANNEL = 4;
-    public static int INTAKE_REVERSE_CHANNEL = 5;
+    public static final int INTAKE_FORWARD_CHANNEL = 4;
+    public static final int INTAKE_REVERSE_CHANNEL = 5;
     public static final int CONTROLPANEL_FORWARD_CHANNEL = 7;
 	public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
 }
