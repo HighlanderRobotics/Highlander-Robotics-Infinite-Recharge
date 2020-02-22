@@ -67,7 +67,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void shoot() {
     frontShooter.set(ControlMode.PercentOutput, 1.0);
-    backShooter.set(ControlMode.PercentOutput, 0.75);
+    backShooter.set(ControlMode.PercentOutput, 1.0);
   }
 
   @Override

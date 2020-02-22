@@ -80,7 +80,7 @@ public class RobotContainer {
             .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
             
         new JoystickButton(m_driverController, Button.kA.value)
-            .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem));
+            .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
         //new JoystickButton(m_driverController, Button.kB.value)
         //    .toggleWhenPressed(new EncoderTest(m_controlPanelSubsystem));
 
@@ -120,8 +120,7 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
 
         return new SequentialCommandGroup(
-            new AutoAim(m_driveSubsystem, m_limelightSubsystem),
-            new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem).withTimeout(1),
-            new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(3));
+            new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
+            new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7));
     }
 }

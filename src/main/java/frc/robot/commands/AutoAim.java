@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
 
@@ -15,12 +16,14 @@ public class AutoAim extends CommandBase {
 
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
+  private final DistanceSensorSubsystem m_distanceSensorSubsystem;
   /**
    * Creates a new autoAim.
    */
-  public AutoAim(DriveSubsystem driveSubsystem, LimeLightSubsystem limelightSubsystem) {
+  public AutoAim(DriveSubsystem driveSubsystem, LimeLightSubsystem limelightSubsystem, DistanceSensorSubsystem distanceSensorSubsystem) {
     m_driveSubsystem = driveSubsystem;
     m_limeLightSubsystem = limelightSubsystem;
+    m_distanceSensorSubsystem = distanceSensorSubsystem;
     addRequirements(m_driveSubsystem, m_limeLightSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -40,7 +43,9 @@ public class AutoAim extends CommandBase {
     } else {
       if(m_limeLightSubsystem.getArea() < 25)
         m_driveSubsystem.straightDrive(-0.3);
-      else 
+      else if(m_distanceSensorSubsystem.getFrontRightDistance() >= 5)
+        m_driveSubsystem.straightDrive(0.3);
+      else
         m_driveSubsystem.straightDrive(0);
     }
     
@@ -54,6 +59,6 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_limeLightSubsystem.getArea() >= 25;
+    return m_distanceSensorSubsystem.getFrontRightDistance() <= 5;
   }
 }
