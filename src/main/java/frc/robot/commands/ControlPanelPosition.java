@@ -12,11 +12,14 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+
+
+
 
 public class ControlPanelPosition extends CommandBase {
   private final ControlPanelSubsystem m_controlPanelSubsystem;
-    List<String> colors = Arrays.asList("R", "G", "B", "Y");
-    String color = colors.get((int)(Math.random()*4));
+    String color;
     //randomColor.nextInt(4)
   public ControlPanelPosition(ControlPanelSubsystem controlPanelSubsystem) {
     m_controlPanelSubsystem = controlPanelSubsystem;
@@ -27,7 +30,7 @@ public class ControlPanelPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    color = DriverStation.getInstance().getGameSpecificMessage();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
