@@ -18,7 +18,7 @@ public class AutoAim extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  private final PIDController turnPID;
+  private final PIDController turnPID = new PIDController(0.1, 0, 0);
   /**
    * Creates a new autoAim.
    */
@@ -49,7 +49,6 @@ public class AutoAim extends CommandBase {
     //  
     //  err_value * kP + integral(err_value) * kI + derivative(err_value) * kD
 
-    turnPID = new PIDController(.01, 0, 0);
     
 
     if(m_limeLightSubsystem.getHorizontalOffset() > 7) {
