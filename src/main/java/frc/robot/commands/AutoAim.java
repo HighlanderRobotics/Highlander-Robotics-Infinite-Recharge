@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -19,6 +21,7 @@ public class AutoAim extends CommandBase {
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
   private final PIDController turnPID = new PIDController(0.1, 0, 0);
+
   /**
    * Creates a new autoAim.
    */
@@ -49,8 +52,15 @@ public class AutoAim extends CommandBase {
     //  
     //  err_value * kP + integral(err_value) * kI + derivative(err_value) * kD
 
-    
+    double offset = turnPID.calculate(m_limeLightSubsystem.getHorizontalOffset());
+    if (m_limeLightSubsystem.getArea() < 25) {
+      m_driveSubsystem.tankDrive(.5 + offset, .5 - offset);
+    }
+    else {
+      m_driveSubsystem.straightDrive(0);
+    }
 
+    /*
     if(m_limeLightSubsystem.getHorizontalOffset() > 7) {
       m_driveSubsystem.turnDriveAtSpeed(0.3);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
@@ -63,6 +73,7 @@ public class AutoAim extends CommandBase {
       else
         m_driveSubsystem.straightDrive(0);
     }
+    */
     
   }
 

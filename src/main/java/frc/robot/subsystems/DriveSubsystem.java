@@ -66,6 +66,11 @@ public class DriveSubsystem extends SubsystemBase {
     drive.tankDrive(.5 + kP * error, .5 - kP * error);
   }
 
+  public void tankDrive(double speedLeft, double speedRight) {
+    
+    drive.tankDrive(speedLeft, speedRight);
+  }
+
   public void turnToAngle(int prospectiveAngle){
     double error = prospectiveAngle - gyro.getAngle();
     drive.tankDrive(kP * error, -kP * error);
