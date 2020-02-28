@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.SensorSlowCommand;
@@ -102,6 +103,11 @@ public class RobotContainer {
         //m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
         m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractBothPistons(), m_pneumaticsSubsystem));
+        SmartDashboard.putData("Blue", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("B")));
+        SmartDashboard.putData("Red", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("R")));
+        SmartDashboard.putData("Green", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("G")));
+        SmartDashboard.putData("Yellow", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("Y")));
+
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
@@ -121,14 +127,14 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        /*
-        return new SequentialCommandGroup(
-            new RunCommand(() -> m_driveSubsystem.straightDrive(0.5), m_driveSubsystem).withTimeout(2.0)
-        );
-        */
+        
+    
+        
         
         return new SequentialCommandGroup(
             new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
+            new RunCommand(() -> m_driveSubsystem.straightDrive(0.4), m_driveSubsystem).withTimeout(1.0),
             new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7.0));
+            
     }
 }

@@ -49,7 +49,7 @@ public class ControlPanelRotation extends CommandBase {
   @Override
   public void execute() {
     if(counter != 6)
-      m_controlPanelSubsystem.quarterSpeed();
+      m_controlPanelSubsystem.halfSpeed();
     if(Timer.getFPGATimestamp() - prevTime >= 0.3){
       if(startingColor.equals(m_controlPanelSubsystem.colorDetected()))
         counter++;
