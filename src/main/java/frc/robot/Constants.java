@@ -43,5 +43,9 @@ public final class Constants {
     public static final int INTAKE_FORWARD_CHANNEL = 4;
     public static final int INTAKE_REVERSE_CHANNEL = 5;
     public static final int CONTROLPANEL_FORWARD_CHANNEL = 7;
-	public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
+    public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
+    
+    // Limiters
+    public static final double SLEW_SPEED_LIMITER = 0.5;
+    public static final double SLEW_ROTATION_LIMITER = 0.5;
 }
