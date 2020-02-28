@@ -51,12 +51,16 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler 
   }
 
-  public void setSpeedMultiplier(Double speed) {
+  public void setSpeedMultiplier(double speed) {
     speedMultiplier = speed;
   }
 
   public double getSpeedMultiplier() {
     return speedMultiplier;
+  }
+
+  public void setMaxOutput(double max) {
+    drive.setMaxOutput(max);
   }
 
   public void driveStraight() {

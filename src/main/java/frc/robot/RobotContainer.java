@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.AutoAim;
+import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.SensorSlowCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -75,6 +76,9 @@ public class RobotContainer {
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
         whileHeldFuncController(Button.kX, m_controlPanelSubsystem, m_controlPanelSubsystem::halfSpeed);
+       
+        new JoystickButton(m_functionsController, Button.kY.value)
+            .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
         
         // Driver Controller
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
@@ -87,10 +91,8 @@ public class RobotContainer {
             .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperRight.value)
-            .whenPressed(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
-
-        new JoystickButton(m_driverController, Button.kBumperLeft.value)
-            .whenReleased(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(1.0), m_driveSubsystem));
+            .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
+            .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
 
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));
