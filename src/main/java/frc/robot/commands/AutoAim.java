@@ -43,8 +43,8 @@ public class AutoAim extends CommandBase {
     } else {
       if(m_limeLightSubsystem.getArea() < 25)
         m_driveSubsystem.straightDrive(-0.3);
-      else if(m_distanceSensorSubsystem.getFrontRightDistance() >= 5)
-        m_driveSubsystem.straightDrive(0.3);
+      //else if(m_distanceSensorSubsystem.getFrontRightDistance() >= 5)
+      //  m_driveSubsystem.straightDrive(0.3);
       else
         m_driveSubsystem.straightDrive(0);
     }

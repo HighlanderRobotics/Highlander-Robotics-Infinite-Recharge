@@ -38,11 +38,11 @@ public class PneumaticsSubsystem extends SubsystemBase {
     }
 
     public void extendControlPanelPiston() {
-      solenoidCP.set(kReverse);
+      solenoidCP.set(kForward);
     }
   
     public void retractControlPanelPiston() {
-      solenoidCP.set(kForward);
+      solenoidCP.set(kReverse);
     }
 
     @Override

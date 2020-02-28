@@ -10,7 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoAim;
+import frc.robot.commands.ControlPanelRotation;
 import frc.robot.commands.SensorSlowCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -75,7 +77,10 @@ public class RobotContainer {
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::backFullSpeed);
         whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
         whileHeldFuncController(Button.kX, m_controlPanelSubsystem, m_controlPanelSubsystem::halfSpeed);
-        
+
+        //new JoystickButton(m_functionsController, Button.kX.value)
+        //    .toggleWhenPressed(new ControlPanelRotation(m_controlPanelSubsystem));
+
         // Driver Controller
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
         //    .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
@@ -89,7 +94,7 @@ public class RobotContainer {
         new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whenPressed(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(0.5), m_driveSubsystem));
 
-        new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        new JoystickButton(m_driverController, Button.kBumperRight.value)
             .whenReleased(new InstantCommand(() -> m_driveSubsystem.setSpeedMultiplier(1.0), m_driveSubsystem));
 
         // Defaults
@@ -100,6 +105,11 @@ public class RobotContainer {
         //m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem));
         m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
         m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractBothPistons(), m_pneumaticsSubsystem));
+        SmartDashboard.putData("Blue", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("B")));
+        SmartDashboard.putData("Red", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("R")));
+        SmartDashboard.putData("Green", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("G")));
+        SmartDashboard.putData("Yellow", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("Y")));
+
     }
 
     private void whileHeldFuncController(Button button, Subsystem subsystem, Runnable runnable) {
@@ -119,14 +129,14 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() { 
         // An ExampleCommand will run in autonomous
-        /*
-        return new SequentialCommandGroup(
-            new RunCommand(() -> m_driveSubsystem.straightDrive(0.5), m_driveSubsystem).withTimeout(2.0)
-        );
-        */
+        
+    
+        
         
         return new SequentialCommandGroup(
             new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
+            new RunCommand(() -> m_driveSubsystem.straightDrive(0.4), m_driveSubsystem).withTimeout(1.0),
             new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7.0));
+            
     }
 }

@@ -53,6 +53,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
     panelMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
+  public void colorRotation(String c) {
+    while(!isMatchingColor(c)) {
+      panelMotor.set(ControlMode.PercentOutput, 0.5);
+    }
+  }
+
   public void quarterSpeed() {
     panelMotor.set(ControlMode.PercentOutput, 0.25);
   }
