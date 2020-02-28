@@ -46,6 +46,6 @@ public final class Constants {
     public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
     
     // Limiters
-    public static final double SLEW_SPEED_LIMITER = 0.5;
-    public static final double SLEW_ROTATION_LIMITER = 0.5;
+    public static double SLEW_SPEED_LIMITER = 5;
+    public static double SLEW_ROTATION_LIMITER = 5;
 }

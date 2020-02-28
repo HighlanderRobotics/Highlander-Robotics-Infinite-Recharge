@@ -7,14 +7,18 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -39,6 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
     private double heading = gyro.getAngle();
     private final SlewRateLimiter speedSlewRate = new SlewRateLimiter(Constants.SLEW_SPEED_LIMITER),
                                   rotationSlewRate = new SlewRateLimiter(Constants.SLEW_ROTATION_LIMITER);
+    private NetworkTableEntry slewRateSlider;
     
   /**
    * Creates a new DriveSubsystem.
@@ -47,11 +52,22 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public DriveSubsystem() {
     resetSpeedMultiplier();
+    
+    slewRateSlider = Shuffleboard.getTab("Robot Sliders")
+    .add("Slew Rate Number", 0)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 10))
+    .getEntry();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
+  }
+
+  public void setSlewRateNum() {
+    Constants.SLEW_ROTATION_LIMITER = slewRateSlider.getDouble(0.0);
+    Constants.SLEW_SPEED_LIMITER = slewRateSlider.getDouble(0.0);
   }
 
   public void setSpeedMultiplier(double speed) {
