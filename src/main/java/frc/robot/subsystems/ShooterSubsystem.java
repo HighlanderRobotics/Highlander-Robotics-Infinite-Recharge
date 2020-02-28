@@ -24,6 +24,16 @@ public class ShooterSubsystem extends SubsystemBase {
     
   }
 
+  public void shootAtSpeed(Double loader, Double shooter) {
+    backShooter.set(ControlMode.PercentOutput, loader);
+    frontShooter.set(ControlMode.PercentOutput, shooter);
+  }
+
+  public void shootBalls() {
+    backShooter.set(ControlMode.PercentOutput, -0.5);
+    frontShooter.set(ControlMode.PercentOutput, -0.436);
+  }
+
   public void zeroSpeed() {
     backShooter.set(ControlMode.PercentOutput, 0.0);
     frontShooter.set(ControlMode.PercentOutput, 0.0);
