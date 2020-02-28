@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -36,6 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
     private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
     private double kP = .0005;
     private double heading = gyro.getAngle();
+    private final SlewRateLimiter speedSlewRate = new SlewRateLimiter(Constants.SLEW_SPEED_LIMITER),
+                                  rotationSlewRate = new SlewRateLimiter(Constants.SLEW_ROTATION_LIMITER);
     
   /**
    * Creates a new DriveSubsystem.
@@ -82,7 +85,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void teleOpDrive(double straightSpeed, double turnSpeed) {
     // Drives at a forward speed and rotational speed
-    drive.arcadeDrive(straightSpeed * speedMultiplier, (turnSpeed * Constants.SLOW_TURN_MULTIPLE) * speedMultiplier);
+    drive.arcadeDrive(speedSlewRate.calculate(straightSpeed * speedMultiplier), 
+                      rotationSlewRate.calculate(turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier));
     //logger.warning("Speed: " + straightSpeed + "SpeedMultiplier: " + speedMultiplier);
     // drive.arcadeDrive(straightSpeed * speedMultiplier, turnSpeed * Constants.SLOW_TURN_MULTIPLE * speedMultiplier);
     // The slow turn multiple makes the turning too slow at half speed, so we have commented it out for now.
