@@ -23,7 +23,7 @@ public final class Constants {
 
     // Driving multipliers
     public static double HALF_SPEED_MULTIPLIER = 0.5;
-    public static double SLOW_TURN_MULTIPLE = 0.85;
+    public static double SLOW_TURN_MULTIPLE = 0.75;
 
     // Distance Sensor
     public static int PING_CHANNEL = 0;
@@ -46,6 +46,6 @@ public final class Constants {
     public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
     
     // Limiters
-    public static double SLEW_SPEED_LIMITER = 5;
-    public static double SLEW_ROTATION_LIMITER = 5;
+    public static double SLEW_SPEED_LIMITER = 4;
+    public static double SLEW_ROTATION_LIMITER = 3.5;
 }

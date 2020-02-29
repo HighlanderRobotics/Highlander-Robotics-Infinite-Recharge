@@ -43,7 +43,8 @@ public class DriveSubsystem extends SubsystemBase {
     private double heading = gyro.getAngle();
     private final SlewRateLimiter speedSlewRate = new SlewRateLimiter(Constants.SLEW_SPEED_LIMITER),
                                   rotationSlewRate = new SlewRateLimiter(Constants.SLEW_ROTATION_LIMITER);
-    private NetworkTableEntry slewRateSlider;
+    private NetworkTableEntry slewSpeedSlider;
+    private NetworkTableEntry slewRotationSlider;
     
   /**
    * Creates a new DriveSubsystem.
@@ -53,8 +54,14 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     resetSpeedMultiplier();
     
-    slewRateSlider = Shuffleboard.getTab("Robot Sliders")
-    .add("Slew Rate Number", 0)
+    slewSpeedSlider = Shuffleboard.getTab("Robot Sliders")
+    .add("Slew Speed Number", 0)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 10))
+    .getEntry();
+
+    slewRotationSlider = Shuffleboard.getTab("Robot Sliders")
+    .add("Slew Rotation Number", 0)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0, "max", 10))
     .getEntry();
@@ -66,8 +73,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setSlewRateNum() {
-    Constants.SLEW_ROTATION_LIMITER = slewRateSlider.getDouble(0.0);
-    Constants.SLEW_SPEED_LIMITER = slewRateSlider.getDouble(0.0);
+    Constants.SLEW_ROTATION_LIMITER = slewRotationSlider.getDouble(0.0);
+    Constants.SLEW_SPEED_LIMITER = slewSpeedSlider.getDouble(0.0);
   }
 
   public void setSpeedMultiplier(double speed) {

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -91,8 +92,15 @@ public class RobotContainer {
             .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperRight.value)
-            .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
+            .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.6))
             .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
+
+        new JoystickButton(m_driverController, Button.kBumperLeft.value)
+            .whenPressed(() ->     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0))
+            .whenReleased(() ->    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1));
+
+        
+
 
         // Defaults
         m_controlPanelSubsystem.setDefaultCommand(new RunCommand(() -> m_controlPanelSubsystem.zeroSpeed(), m_controlPanelSubsystem));

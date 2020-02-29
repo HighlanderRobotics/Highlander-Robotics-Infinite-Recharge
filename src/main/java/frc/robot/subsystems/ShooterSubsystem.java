@@ -31,7 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void shootBalls() {
     backShooter.set(ControlMode.PercentOutput, -0.5);
-    frontShooter.set(ControlMode.PercentOutput, -1); //-0.436
+    frontShooter.set(ControlMode.PercentOutput, -0.7); //-0.436
   }
 
   public void zeroSpeed() {
