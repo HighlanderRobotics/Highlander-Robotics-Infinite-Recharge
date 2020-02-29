@@ -7,11 +7,23 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.SensorSlowCommand;
@@ -25,6 +37,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -133,15 +146,57 @@ public class RobotContainer {
      */
 
     public Command getAutonomousCommand() { 
-        // An ExampleCommand will run in autonomous
-        
-    
-        
-        
+        // Trajectory Control
+        var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(Constants.ksVolts,
+                                       Constants.kvVoltSecondsPerMeter,
+                                       Constants.kaVoltSecondsSquaredPerMeter),
+                                       Constants.kDriveKinematics,
+            10);
+
+        // Create config for trajectory
+        TrajectoryConfig config =
+            new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+                                Constants.kMaxAccelerationMetersPerSecondSquared)
+                // Add kinematics to ensure max speed is actually obeyed
+                .setKinematics(Constants.kDriveKinematics)
+                // Apply the voltage constraint
+                .addConstraint(autoVoltageConstraint);
+                
+        Trajectory testStraightTrajectory = TrajectoryGenerator.generateTrajectory(
+                    // Start at the origin facing the +X direction
+                    new Pose2d(120, -120, new Rotation2d(0)),
+                    List.of(),
+                    // End 3 meters straight ahead of where we started, facing forward
+                    new Pose2d(60, -120, new Rotation2d(0)),
+                    // Pass config
+                    config);
+                    
+        RamseteCommand ramseteCommand = new RamseteCommand(
+                        testStraightTrajectory,
+                        m_driveSubsystem::getPose,
+                        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                        new SimpleMotorFeedforward(Constants.ksVolts,
+                                                   Constants.kvVoltSecondsPerMeter,
+                                                   Constants.kaVoltSecondsSquaredPerMeter),
+                                                    Constants.kDriveKinematics,
+                        m_driveSubsystem::getWheelSpeeds,
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        // RamseteCommand passes volts to the callback
+                        m_driveSubsystem::tankDriveVolts,
+                        m_driveSubsystem
+                    );
+
+        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+
+        /*
         return new SequentialCommandGroup(
             new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
             new RunCommand(() -> m_driveSubsystem.straightDrive(0.4), m_driveSubsystem).withTimeout(1.0),
             new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7.0));
+        */
             
     }
 }

@@ -9,11 +9,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,7 +50,13 @@ public class DriveSubsystem extends SubsystemBase {
                                   rotationSlewRate = new SlewRateLimiter(Constants.SLEW_ROTATION_LIMITER);
     private NetworkTableEntry slewSpeedSlider;
     private NetworkTableEntry slewRotationSlider;
-    
+    private final DifferentialDriveOdometry m_odometry;
+
+    private final Encoder m_leftEncoder =
+      new Encoder(Constants.kLeftEncoderPorts[0], Constants.kLeftEncoderPorts[1]);
+    private final Encoder m_rightEncoder =
+      new Encoder(Constants.kRightEncoderPorts[2], Constants.kRightEncoderPorts[3]);
+
   /**
    * Creates a new DriveSubsystem.
    * 
@@ -53,7 +64,9 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public DriveSubsystem() {
     resetSpeedMultiplier();
-    
+
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
     slewSpeedSlider = Shuffleboard.getTab("Robot Sliders")
     .add("Slew Speed Number", 0)
     .withWidget(BuiltInWidgets.kNumberSlider)
@@ -70,6 +83,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
+  }
+
+  public double getHeading() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
   }
 
   public void setSlewRateNum() {
@@ -89,6 +106,20 @@ public class DriveSubsystem extends SubsystemBase {
     drive.setMaxOutput(max);
   }
 
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    left.setVoltage(leftVolts);
+    right.setVoltage(-rightVolts);
+    drive.feed();
+  }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(m_leftEncoder.getRate(), m_rightEncoder.getRate());
+  }
+
   public void driveStraight() {
     double error = heading - gyro.getAngle();
 
@@ -97,7 +128,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void tankDrive(double speedLeft, double speedRight) {
-    
     drive.tankDrive(speedLeft, speedRight);
   }
 
