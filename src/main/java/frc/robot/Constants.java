@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
     // Characterization Constants (EDIT LATER)
         // Feedforward/feedback gains
@@ -29,8 +31,8 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0;
     public static final double kPDriveVel = 0;
         // Differential Drive Kinematics
-    public static final double kTrackwidthMeters = 0;
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+    public static final double kTrackWidthMeters = 0.61214;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         // Max Trajectory Velocity/Acceleration
     public static final double kMaxSpeedMetersPerSecond = 0;
     public static final double kMaxAccelerationMetersPerSecondSquared = 0;
@@ -74,5 +76,7 @@ public final class Constants {
 
 	public static boolean kGyroReversed = false;
 	public static DigitalSource[] kLeftEncoderPorts;
-	public static DigitalSource[] kRightEncoderPorts;
+    public static DigitalSource[] kRightEncoderPorts;
+    public static double kEncoderPulses = 1000;
+    public static double kEncoderDistancePerPulse = 0.47879/kEncoderPulses;
 }

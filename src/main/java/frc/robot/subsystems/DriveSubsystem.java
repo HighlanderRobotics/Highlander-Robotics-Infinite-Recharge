@@ -65,6 +65,11 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     resetSpeedMultiplier();
 
+    m_leftEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
+    m_rightEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
+
+    resetEncoders();
+
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
     slewSpeedSlider = Shuffleboard.getTab("Robot Sliders")
@@ -83,6 +88,11 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler 
+  }
+
+  public void resetEncoders() {
+    m_leftEncoder.reset();
+    m_rightEncoder.reset();
   }
 
   public double getHeading() {
