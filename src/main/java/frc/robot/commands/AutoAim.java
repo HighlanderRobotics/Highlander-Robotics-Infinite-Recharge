@@ -21,8 +21,8 @@ public class AutoAim extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  private final PIDController turnPID = new PIDController(0.05, 0.05, 0.05);
-
+  private final PIDController turnPID = new PIDController(0, 0, 0);
+  
   /**
    * Creates a new autoAim.
    */
@@ -52,7 +52,7 @@ public class AutoAim extends CommandBase {
     //  * 0.01 = 0.3
     //  
     //  err_value * kP + integral(err_value) * kI + derivative(err_value) * kD
-    /*
+    
     double offset = turnPID.calculate(m_limeLightSubsystem.getHorizontalOffset());
     if (m_limeLightSubsystem.getArea() < 25) {
       m_driveSubsystem.tankDrive(.5 + offset, .5 -offset);
@@ -60,8 +60,8 @@ public class AutoAim extends CommandBase {
     else {
       m_driveSubsystem.straightDrive(0);
     }
-    */
     
+    /*
     if(m_limeLightSubsystem.getHorizontalOffset() > 7) {
       m_driveSubsystem.turnDriveAtSpeed(0.3);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
@@ -74,7 +74,7 @@ public class AutoAim extends CommandBase {
       else
         m_driveSubsystem.straightDrive(0);
     }
-    
+    */
     
   }
 

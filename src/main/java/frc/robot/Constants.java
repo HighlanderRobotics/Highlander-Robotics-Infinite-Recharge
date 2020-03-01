@@ -7,9 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import frc.robot.subsystems.DriveSubsystem;
+import io.github.oblarg.oblog.annotations.Config;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -26,19 +28,19 @@ public final class Constants {
 
     // Characterization Constants (EDIT LATER)
         // Feedforward/feedback gains
-    public static final double ksVolts = 0;
-    public static final double kvVoltSecondsPerMeter = 0;
-    public static final double kaVoltSecondsSquaredPerMeter = 0;
-    public static final double kPDriveVel = 0;
+    public static final double ksVolts = 0.944;
+    public static final double kvVoltSecondsPerMeter = 3.33;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.383;
+    public static final double kPDriveVel = 0.00302;
         // Differential Drive Kinematics
-    public static final double kTrackWidthMeters = 0.61214;
+    public static final double kTrackWidthMeters = 0.741; //0.61214 calculated, 0.741 is from characterization
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         // Max Trajectory Velocity/Acceleration
-    public static final double kMaxSpeedMetersPerSecond = 0;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0;
+    public static final double kMaxSpeedMetersPerSecond = 0.25;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
         //Ramsete
-    public static double kRamseteB;
-    public static double kRamseteZeta;
+    public static double kRamseteB = 2;
+    public static double kRamseteZeta = 0.7;
     
 
 
@@ -51,8 +53,8 @@ public final class Constants {
     public static double SLOW_TURN_MULTIPLE = 0.75;
 
     // Distance Sensor
-    public static int PING_CHANNEL = 0;
-    public static int ECHO_CHANNEL = 1;
+    public static int PING_CHANNEL = 4;
+    public static int ECHO_CHANNEL = 5;
 
     // Motors
     public static int DRIVESUBSYSTEM_LEFT_BACK_TALON = 0;
@@ -71,12 +73,12 @@ public final class Constants {
     public static final int CONTROLPANEL_REVERSE_CHANNEL = 6;
     
     // Limiters
-    public static double SLEW_SPEED_LIMITER = 4;
-    public static double SLEW_ROTATION_LIMITER = 3.5;
+    public static final double SLEW_SPEED_LIMITER = 4;
+    public static final double SLEW_ROTATION_LIMITER = 3.5;
 
 	public static boolean kGyroReversed = false;
-	public static DigitalSource[] kLeftEncoderPorts;
-    public static DigitalSource[] kRightEncoderPorts;
+	public static int[] kLeftEncoderPorts = {0,1};
+    public static int[] kRightEncoderPorts = {2,3};
     public static double kEncoderPulses = 1000;
     public static double kEncoderDistancePerPulse = 0.47879/kEncoderPulses;
 }

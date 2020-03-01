@@ -34,6 +34,7 @@ import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import io.github.oblarg.oblog.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -74,6 +75,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+
+        Logger.configureLoggingAndConfig(this, false);
     }
 
     /**
@@ -83,6 +86,7 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+
 
         // m_functionsController button uses
         whileHeldFuncController(Button.kB, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendControlPanelPiston);
@@ -145,9 +149,11 @@ public class RobotContainer {
      *         }
      */
 
-    public Command getAutonomousCommand() { 
+    public Command getAutonomousCommand() {
+        
         // Trajectory Control
-        var autoVoltageConstraint =
+        
+        var  autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.ksVolts,
                                        Constants.kvVoltSecondsPerMeter,
@@ -166,14 +172,13 @@ public class RobotContainer {
                 
         Trajectory testStraightTrajectory = TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(120, -120, new Rotation2d(0)),
+                    new Pose2d(0, 0, new Rotation2d(0)),
                     List.of(),
-                    // End 3 meters straight ahead of where we started, facing forward
-                    new Pose2d(60, -120, new Rotation2d(0)),
+                    new Pose2d(1, 0, new Rotation2d(0)),
                     // Pass config
                     config);
                     
-        RamseteCommand ramseteCommand = new RamseteCommand(
+        RamseteCommand straightCommand = new RamseteCommand(
                         testStraightTrajectory,
                         m_driveSubsystem::getPose,
                         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
@@ -189,7 +194,8 @@ public class RobotContainer {
                         m_driveSubsystem
                     );
 
-        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+        return straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+        
 
         /*
         return new SequentialCommandGroup(
