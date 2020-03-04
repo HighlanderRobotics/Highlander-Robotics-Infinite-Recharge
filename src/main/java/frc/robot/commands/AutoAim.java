@@ -37,6 +37,7 @@ public class AutoAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_limeLightSubsystem.lightOff();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,7 +53,7 @@ public class AutoAim extends CommandBase {
     //  * 0.01 = 0.3
     //  
     //  err_value * kP + integral(err_value) * kI + derivative(err_value) * kD
-    
+    m_limeLightSubsystem.lightOn();
     double offset = turnPID.calculate(m_limeLightSubsystem.getHorizontalOffset());
     if (m_limeLightSubsystem.getArea() < 25) {
       m_driveSubsystem.tankDrive(.5 + offset, .5 -offset);
@@ -81,7 +82,7 @@ public class AutoAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    NetworkTableInstance.getDefault().getTable("liemlight").getEntry("ledMode").setNumber(1);
+    m_limeLightSubsystem.lightOff();
 
   }
 

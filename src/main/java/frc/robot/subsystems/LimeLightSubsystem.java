@@ -21,7 +21,7 @@ public class LimeLightSubsystem extends SubsystemBase {
   public double areaOffset;
   
   public LimeLightSubsystem() {
-    
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
   }
 
   public void defaultReadings() {
@@ -70,5 +70,13 @@ public class LimeLightSubsystem extends SubsystemBase {
 
   public double getVerticalOffset() {
     return verticalOffset;
+  }
+
+  public void lightOn() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+  }
+
+  public void lightOff() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
   }
 }

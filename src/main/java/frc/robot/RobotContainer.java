@@ -172,9 +172,9 @@ public class RobotContainer {
                 
         Trajectory testStraightTrajectory = TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(0, 0, new Rotation2d(0)),
+                    new Pose2d(0, 0, new Rotation2d(-1, 0)),
                     List.of(),
-                    new Pose2d(1, 0, new Rotation2d(0)),
+                    new Pose2d(1, 0, new Rotation2d(-1, 0)),
                     // Pass config
                     config);
                     
@@ -193,16 +193,13 @@ public class RobotContainer {
                         m_driveSubsystem::tankDriveVolts,
                         m_driveSubsystem
                     );
-
         return straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
-        
-
         /*
         return new SequentialCommandGroup(
-            new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem),
-            new RunCommand(() -> m_driveSubsystem.straightDrive(0.4), m_driveSubsystem).withTimeout(1.0),
-            new RunCommand(() -> m_shooterSubsystem.shoot(), m_shooterSubsystem).withTimeout(7.0));
+            new RunCommand(() -> m_pneumaticsSubsystem.extendIntakePiston(), m_pneumaticsSubsystem).withTimeout(0.1),
+            new RunCommand(() -> m_intakeSubsystem.threeQuarterSpeed(), m_intakeSubsystem).withTimeout(4),
+            straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
+            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(2.0));
         */
-            
     }
 }

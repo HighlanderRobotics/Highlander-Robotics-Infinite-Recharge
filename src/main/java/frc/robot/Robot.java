@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import io.github.oblarg.oblog.Logger;
 
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private LimeLightSubsystem m_limelightSubsystem = new LimeLightSubsystem();
   private NetworkTableEntry shooterSpeedSlider;  
  
   /**
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_limelightSubsystem.lightOff();
   }
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

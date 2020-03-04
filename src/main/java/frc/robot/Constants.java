@@ -28,16 +28,16 @@ public final class Constants {
 
     // Characterization Constants (EDIT LATER)
         // Feedforward/feedback gains
-    public static final double ksVolts = 0.944;
-    public static final double kvVoltSecondsPerMeter = 3.33;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.383;
-    public static final double kPDriveVel = 0.00302;
+    public static final double ksVolts = 1.04;
+    public static final double kvVoltSecondsPerMeter = 3.19;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.336; //0.336
+    public static final double kPDriveVel = 12.3;
         // Differential Drive Kinematics
-    public static final double kTrackWidthMeters = 0.741; //0.61214 calculated, 0.741 is from characterization
+    public static final double kTrackWidthMeters = 0.6187672283855629 ; //0.61214 calculated, 0.741 is from characterization
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         // Max Trajectory Velocity/Acceleration
-    public static final double kMaxSpeedMetersPerSecond = 0.25;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+    public static final double kMaxSpeedMetersPerSecond = 0.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
         //Ramsete
     public static double kRamseteB = 2;
     public static double kRamseteZeta = 0.7;

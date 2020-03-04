@@ -71,14 +71,10 @@ public class DriveSubsystem extends SubsystemBase implements Loggable {
    */
   public DriveSubsystem() {
     resetSpeedMultiplier();
-
     m_leftEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
     m_rightEncoder.setDistancePerPulse(Constants.kEncoderDistancePerPulse);
-
     resetEncoders();
-
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
-
   }
 
   @Override
