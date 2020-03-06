@@ -162,24 +162,42 @@ public class RobotContainer {
             10);
 
         // Create config for trajectory
-        TrajectoryConfig config =
+        TrajectoryConfig forwardConfig =
             new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                                 Constants.kMaxAccelerationMetersPerSecondSquared)
                 // Add kinematics to ensure max speed is actually obeyed
                 .setKinematics(Constants.kDriveKinematics)
                 // Apply the voltage constraint
-                .addConstraint(autoVoltageConstraint);
+                .addConstraint(autoVoltageConstraint)
+                .setReversed(false);
+
+        TrajectoryConfig backwardConfig =
+                new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
+                                    Constants.kMaxAccelerationMetersPerSecondSquared)
+                    // Add kinematics to ensure max speed is actually obeyed
+                    .setKinematics(Constants.kDriveKinematics)
+                    // Apply the voltage constraint
+                    .addConstraint(autoVoltageConstraint)
+                    .setReversed(true);
                 
-        Trajectory testStraightTrajectory = TrajectoryGenerator.generateTrajectory(
+        Trajectory goToRedPortTrajectory = TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(0, 0, new Rotation2d(-1, 0)),
+                    new Pose2d(),
                     List.of(),
-                    new Pose2d(1, 0, new Rotation2d(-1, 0)),
+                    new Pose2d(1.2, 0, new Rotation2d()),
                     // Pass config
-                    config);
-                    
+                    forwardConfig);
+        
+        Trajectory redTrenchCollect = TrajectoryGenerator.generateTrajectory(
+                        // Start at the origin facing the +X direction
+                        new Pose2d(),
+                        List.of(),
+                        new Pose2d(-0.6, 0, new Rotation2d()),
+                        // Pass config
+                        backwardConfig);
+        
         RamseteCommand straightCommand = new RamseteCommand(
-                        testStraightTrajectory,
+                        goToRedPortTrajectory,
                         m_driveSubsystem::getPose,
                         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
                         new SimpleMotorFeedforward(Constants.ksVolts,
@@ -193,13 +211,55 @@ public class RobotContainer {
                         m_driveSubsystem::tankDriveVolts,
                         m_driveSubsystem
                     );
-        return straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
-        /*
+        
+        RamseteCommand trenchColectCommand = new RamseteCommand(
+                        redTrenchCollect,
+                        m_driveSubsystem::getPose,
+                        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                        new SimpleMotorFeedforward(Constants.ksVolts,
+                                                   Constants.kvVoltSecondsPerMeter,
+                                                   Constants.kaVoltSecondsSquaredPerMeter),
+                                                    Constants.kDriveKinematics,
+                        m_driveSubsystem::getWheelSpeeds,
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        // RamseteCommand passes volts to the callback
+                        m_driveSubsystem::tankDriveVolts,
+                        m_driveSubsystem
+                    );
+
+           
+        RamseteCommand goBackToPortTwo = new RamseteCommand(
+                        goToRedPortTrajectory,
+                        m_driveSubsystem::getPose,
+                        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                        new SimpleMotorFeedforward(Constants.ksVolts,
+                                                   Constants.kvVoltSecondsPerMeter,
+                                                   Constants.kaVoltSecondsSquaredPerMeter),
+                                                    Constants.kDriveKinematics,
+                        m_driveSubsystem::getWheelSpeeds,
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        // RamseteCommand passes volts to the callback
+                        m_driveSubsystem::tankDriveVolts,
+                        m_driveSubsystem
+                    );
+        
+        //return straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+        
         return new SequentialCommandGroup(
-            new RunCommand(() -> m_pneumaticsSubsystem.extendIntakePiston(), m_pneumaticsSubsystem).withTimeout(0.1),
-            new RunCommand(() -> m_intakeSubsystem.threeQuarterSpeed(), m_intakeSubsystem).withTimeout(4),
             straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
-            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(2.0));
-        */
+            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(2.0),
+            new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem).withTimeout(0.1),
+            new RunCommand(() -> m_pneumaticsSubsystem.extendIntakePiston(), m_pneumaticsSubsystem).withTimeout(0.1),
+            new RunCommand(() -> m_intakeSubsystem.threeQuarterSpeed(), m_intakeSubsystem).withTimeout(0.1),
+            trenchColectCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
+            goBackToPortTwo.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)),
+            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(1.0));
+            
+            
+
+            
+        
     }
 }

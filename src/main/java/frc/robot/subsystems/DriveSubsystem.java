@@ -37,8 +37,7 @@ import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class DriveSubsystem extends SubsystemBase implements Loggable {
-   
-    private WPI_TalonSRX l1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_LEFT_BACK_TALON); 
+    private WPI_TalonSRX l1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_LEFT_BACK_TALON);  
     private WPI_VictorSPX l2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_LEFT_FRONT_VICTOR);
     private WPI_TalonSRX r1 = new WPI_TalonSRX(Constants.DRIVESUBSYSTEM_RIGHT_BACK_TALON);
     private WPI_VictorSPX r2 = new WPI_VictorSPX(Constants.DRIVESUBSYSTEM_RIGHT_FRONT_VICTOR);
@@ -60,9 +59,9 @@ public class DriveSubsystem extends SubsystemBase implements Loggable {
     private final DifferentialDriveOdometry m_odometry;
 
     private final Encoder m_leftEncoder =
-      new Encoder(Constants.kLeftEncoderPorts[0], Constants.kLeftEncoderPorts[1]);
+      new Encoder(Constants.kLeftEncoderPorts[0], Constants.kLeftEncoderPorts[1], Constants.kEncoderReversed);
     private final Encoder m_rightEncoder =
-      new Encoder(Constants.kRightEncoderPorts[0], Constants.kRightEncoderPorts[1]);
+      new Encoder(Constants.kRightEncoderPorts[0], Constants.kRightEncoderPorts[1], Constants.kEncoderReversed);
 
   /**
    * Creates a new DriveSubsystem.
@@ -86,7 +85,7 @@ public class DriveSubsystem extends SubsystemBase implements Loggable {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
   }
-  
+
   public double getHeading() {
     return Math.IEEEremainder(gyro.getAngle(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
   }

@@ -26,18 +26,26 @@ import io.github.oblarg.oblog.annotations.Config;
 public final class Constants {
     private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
+    public final class HenrysCarpet {
+
+    }
+
+    public final class CompetitionCarpet {
+
+    }
+
     // Characterization Constants (EDIT LATER)
         // Feedforward/feedback gains
     public static final double ksVolts = 1.04;
     public static final double kvVoltSecondsPerMeter = 3.19;
     public static final double kaVoltSecondsSquaredPerMeter = 0.336; //0.336
-    public static final double kPDriveVel = 12.3;
+    public static double kPDriveVel = 0.00302;
         // Differential Drive Kinematics
     public static final double kTrackWidthMeters = 0.6187672283855629 ; //0.61214 calculated, 0.741 is from characterization
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         // Max Trajectory Velocity/Acceleration
-    public static final double kMaxSpeedMetersPerSecond = 0.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.5;
+    public static double kMaxSpeedMetersPerSecond = 1.0;
+    public static double kMaxAccelerationMetersPerSecondSquared = 0.5;
         //Ramsete
     public static double kRamseteB = 2;
     public static double kRamseteZeta = 0.7;
@@ -81,4 +89,5 @@ public final class Constants {
     public static int[] kRightEncoderPorts = {2,3};
     public static double kEncoderPulses = 1000;
     public static double kEncoderDistancePerPulse = 0.47879/kEncoderPulses;
+    public static boolean kEncoderReversed = false;
 }
