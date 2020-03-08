@@ -28,6 +28,7 @@ import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
 import frc.robot.commands.OrientToPartner;
+import frc.robot.commands.SlowColorWheel;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -94,6 +95,9 @@ public class RobotContainer {
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::shootBalls);
         whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
 
+        new JoystickButton(m_functionsController, Button.kB.value)
+            .whileHeld(new SlowColorWheel(m_driveSubsystem, m_distanceSensorSubsystem));
+
         new JoystickButton(m_functionsController, Button.kX.value)
             .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
         
@@ -103,6 +107,9 @@ public class RobotContainer {
         // Driver Controller
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
         //    .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
+
+        new JoystickButton(m_driverController, Button.kB.value)
+            .whileHeld(new SlowColorWheel(m_driveSubsystem, m_distanceSensorSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
             .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
