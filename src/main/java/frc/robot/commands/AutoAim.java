@@ -29,7 +29,7 @@ public class AutoAim extends CommandBase {
     m_driveSubsystem = driveSubsystem;
     m_limeLightSubsystem = limelightSubsystem;
     m_distanceSensorSubsystem = distanceSensorSubsystem;
-    addRequirements(m_driveSubsystem, m_limeLightSubsystem);
+    addRequirements(m_driveSubsystem, m_limeLightSubsystem, m_distanceSensorSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -59,9 +59,9 @@ public class AutoAim extends CommandBase {
       m_driveSubsystem.turnDriveAtSpeed(0.5);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
       m_driveSubsystem.turnDriveAtSpeed(-0.5);
-    } else if(m_distanceSensorSubsystem.getFrontRightDistance() >= 10) {
+    } else if(m_distanceSensorSubsystem.getFrontDistance() >= 10) {
       m_driveSubsystem.straightDrive(0.5);
-    } else if(m_distanceSensorSubsystem.getFrontRightDistance() <= 10) {
+    } else if(m_distanceSensorSubsystem.getFrontDistance() <= 10) {
         m_driveSubsystem.straightDrive(0);
     }
     
@@ -77,6 +77,6 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_distanceSensorSubsystem.getFrontRightDistance() <= 5;
+    return m_distanceSensorSubsystem.getFrontDistance() <= 5;
   }
 }

@@ -17,25 +17,22 @@ public class DistanceSensorSubsystem extends SubsystemBase {
    * Creates a new distanceSensorSubsystem.
    */
 
-  private final Ultrasonic frontRight = new Ultrasonic(Constants.PING_CHANNEL, Constants.ECHO_CHANNEL);
-  //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
+  private final Ultrasonic front = new Ultrasonic(Constants.FRONT_PING_CHANNEL, Constants.FRONT_ECHO_CHANNEL);
+  private final Ultrasonic controlPanel = new Ultrasonic(Constants.CONTROLPANEL_PING_CHANNEL, Constants.CONTROLPANEL_ECHO_CHANNEL);
 
   public DistanceSensorSubsystem() {
-    frontRight.setAutomaticMode(true);
-    //frontLeft.setAutomaticMode(false);
+    front.setAutomaticMode(true);
+    controlPanel.setAutomaticMode(true);
   }
 
-  public double getFrontRightDistance() {
-    return frontRight.getRangeInches();
+  public double getFrontDistance() {
+    return front.getRangeInches();
   }
 
- /*
-  public double getFrontLeftDistance() {
-    frontLeft.ping();
-    return frontLeft.getRangeInches();
+  public double getControlPanelDistance() {
+    return controlPanel.getRangeInches();
   }
-  */
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
