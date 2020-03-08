@@ -36,8 +36,8 @@ public class ControlPanelPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!m_controlPanelSubsystem.isMatchingColor(color))
-      m_controlPanelSubsystem.quarterSpeed();
+    if (!m_controlPanelSubsystem.colorDetectedPosistion().equals(color))
+      m_controlPanelSubsystem.setSpeed(0.15);
     else{
       m_controlPanelSubsystem.zeroSpeed();
     }
@@ -52,9 +52,11 @@ public class ControlPanelPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_controlPanelSubsystem.isMatchingColor(color))
+    if (m_controlPanelSubsystem.colorDetectedPosistion().equals(color)) {
       return true;
-    else
+    } else {
       return false;
+    }
+
   }
 }

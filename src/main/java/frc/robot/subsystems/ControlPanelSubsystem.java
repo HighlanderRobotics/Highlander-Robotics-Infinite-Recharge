@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -27,9 +28,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   private final ColorMatch m_colorMatcher = new ColorMatch();
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.361, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.321, 0.333, 0.154);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.325, 0.594, 0.113);
 
   // ESC's
   private VictorSPX panelMotor = new VictorSPX(Constants.CONTROLPANELSUBSYSTEM_VICTOR);
@@ -51,6 +52,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public void zeroSpeed() {
     panelMotor.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public void setSpeed(double speed) {
+    panelMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void colorRotation(String c) {
@@ -90,6 +95,20 @@ public class ControlPanelSubsystem extends SubsystemBase {
       return false;
   }
 
+  public String colorDetectedPosistion(){
+    Color detectedColor = m_colorSensor.getColor();
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+    if(match.color == kRedTarget)
+      return "B";
+    else if(match.color == kGreenTarget)
+      return "Y";
+    else if(match.color == kBlueTarget)
+      return "R";
+    else if(match.color == kYellowTarget)
+      return "G";
+    return "none";
+  }
+
   //Rotation Control Psuedo Code
   /*
   *Create method that detects a color and returns a string corresponding to it
@@ -110,6 +129,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putString("Color", colorDetected());
+
+    // System.out.println(m_colorSensor.getRed() + ", " + m_colorSensor.getGreen() + ", " + m_colorSensor.getBlue());
     // This method will be called once per scheduler run
   }
 }

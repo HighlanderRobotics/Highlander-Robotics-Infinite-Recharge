@@ -26,7 +26,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
-import frc.robot.commands.SensorSlowCommand;
+import frc.robot.commands.ControlPanelRotation;
+import frc.robot.commands.OrientToPartner;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,7 +38,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 import io.github.oblarg.oblog.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -93,10 +93,12 @@ public class RobotContainer {
         whileHeldFuncController(Button.kA, m_intakeSubsystem, m_intakeSubsystem::threeQuarterSpeed);
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::shootBalls);
         whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
-        whileHeldFuncController(Button.kX, m_controlPanelSubsystem, m_controlPanelSubsystem::halfSpeed);
-       
-        new JoystickButton(m_functionsController, Button.kY.value)
+
+        new JoystickButton(m_functionsController, Button.kX.value)
             .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
+        
+        new JoystickButton(m_functionsController, Button.kY.value)
+            .toggleWhenPressed(new ControlPanelRotation(m_controlPanelSubsystem));
         
         // Driver Controller
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
@@ -158,46 +160,68 @@ public class RobotContainer {
             new SimpleMotorFeedforward(Constants.ksVolts,
                                        Constants.kvVoltSecondsPerMeter,
                                        Constants.kaVoltSecondsSquaredPerMeter),
-                                       Constants.kDriveKinematics,
-            10);
+                                       Constants.kDriveKinematics, 10);
 
         // Create config for trajectory
-        TrajectoryConfig forwardConfig =
+        TrajectoryConfig backwardConfig =
             new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                                 Constants.kMaxAccelerationMetersPerSecondSquared)
                 // Add kinematics to ensure max speed is actually obeyed
                 .setKinematics(Constants.kDriveKinematics)
                 // Apply the voltage constraint
                 .addConstraint(autoVoltageConstraint)
-                .setReversed(false);
+                .setReversed(true);
 
-        TrajectoryConfig backwardConfig =
+        TrajectoryConfig forwardConfig =
                 new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
                                     Constants.kMaxAccelerationMetersPerSecondSquared)
                     // Add kinematics to ensure max speed is actually obeyed
                     .setKinematics(Constants.kDriveKinematics)
                     // Apply the voltage constraint
                     .addConstraint(autoVoltageConstraint)
-                    .setReversed(true);
+                    .setReversed(false);
                 
-        Trajectory goToRedPortTrajectory = TrajectoryGenerator.generateTrajectory(
+        Trajectory getBallsFromTrenchTrajectory = TrajectoryGenerator.generateTrajectory(
                     // Start at the origin facing the +X direction
-                    new Pose2d(),
+                    new Pose2d(0, 0, new Rotation2d(0, 0)),
                     List.of(),
-                    new Pose2d(1.2, 0, new Rotation2d()),
+                    new Pose2d(-0.5, 0, new Rotation2d(0, 0)), // -1.6, 0
                     // Pass config
-                    forwardConfig);
+                    backwardConfig);
         
-        Trajectory redTrenchCollect = TrajectoryGenerator.generateTrajectory(
+        Trajectory trenchToTurnTrajecory = TrajectoryGenerator.generateTrajectory(
                         // Start at the origin facing the +X direction
-                        new Pose2d(),
+                        new Pose2d(0, 0, new Rotation2d(0, 0)),
                         List.of(),
-                        new Pose2d(-0.6, 0, new Rotation2d()),
+                        new Pose2d(0.3, 0, new Rotation2d(0, 5)),//2.8 , 0/7
                         // Pass config
-                        backwardConfig);
+                        forwardConfig);
+
+        Trajectory driveToPortTrajecory = TrajectoryGenerator.generateTrajectory(
+                            // Start at the origin facing the +X direction
+                            new Pose2d(0, 0, new Rotation2d(0, 0)),
+                            List.of(),
+                            new Pose2d(1.4, 0, new Rotation2d(0, 0)),//2.8 , 0/7
+                            // Pass config
+                            forwardConfig);
         
-        RamseteCommand straightCommand = new RamseteCommand(
-                        goToRedPortTrajectory,
+        RamseteCommand collectFromTrenchCommand = new RamseteCommand(
+                        getBallsFromTrenchTrajectory,
+                        m_driveSubsystem::getPose,
+                        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                        new SimpleMotorFeedforward(Constants.ksVolts,
+                                                   Constants.kvVoltSecondsPerMeter,
+                                                   Constants.kaVoltSecondsSquaredPerMeter),
+                                                    Constants.kDriveKinematics,
+                        m_driveSubsystem::getWheelSpeeds,
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        new PIDController(Constants.kPDriveVel, 0, 0),
+                        // RamseteCommand passes volts to the callback
+                        m_driveSubsystem::tankDriveVolts,
+                        m_driveSubsystem
+                    );        
+        RamseteCommand trenchToTurnCommand = new RamseteCommand(
+                        trenchToTurnTrajecory,
                         m_driveSubsystem::getPose,
                         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
                         new SimpleMotorFeedforward(Constants.ksVolts,
@@ -212,8 +236,8 @@ public class RobotContainer {
                         m_driveSubsystem
                     );
         
-        RamseteCommand trenchColectCommand = new RamseteCommand(
-                        redTrenchCollect,
+        RamseteCommand driveToPortCommand = new RamseteCommand(
+                        driveToPortTrajecory,
                         m_driveSubsystem::getPose,
                         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
                         new SimpleMotorFeedforward(Constants.ksVolts,
@@ -228,38 +252,17 @@ public class RobotContainer {
                         m_driveSubsystem
                     );
 
-           
-        RamseteCommand goBackToPortTwo = new RamseteCommand(
-                        goToRedPortTrajectory,
-                        m_driveSubsystem::getPose,
-                        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-                        new SimpleMotorFeedforward(Constants.ksVolts,
-                                                   Constants.kvVoltSecondsPerMeter,
-                                                   Constants.kaVoltSecondsSquaredPerMeter),
-                                                    Constants.kDriveKinematics,
-                        m_driveSubsystem::getWheelSpeeds,
-                        new PIDController(Constants.kPDriveVel, 0, 0),
-                        new PIDController(Constants.kPDriveVel, 0, 0),
-                        // RamseteCommand passes volts to the callback
-                        m_driveSubsystem::tankDriveVolts,
-                        m_driveSubsystem
-                    );
-        
         //return straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
         
         return new SequentialCommandGroup(
-            straightCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
-            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(2.0),
-            new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem).withTimeout(0.1),
             new RunCommand(() -> m_pneumaticsSubsystem.extendIntakePiston(), m_pneumaticsSubsystem).withTimeout(0.1),
             new RunCommand(() -> m_intakeSubsystem.threeQuarterSpeed(), m_intakeSubsystem).withTimeout(0.1),
-            trenchColectCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
-            goBackToPortTwo.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)),
-            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(1.0));
-            
-            
-
-            
+            collectFromTrenchCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
+            new RunCommand(() -> m_pneumaticsSubsystem.retractIntakePiston(), m_pneumaticsSubsystem).withTimeout(0.1),
+            new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem).withTimeout(0.1),
+            driveToPortCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0)), 
+            new RunCommand(() -> m_shooterSubsystem.shootBalls(), m_shooterSubsystem).withTimeout(2.0),
+            new RunCommand(() -> m_shooterSubsystem.zeroSpeed(), m_shooterSubsystem).withTimeout(0.1));
         
     }
 }

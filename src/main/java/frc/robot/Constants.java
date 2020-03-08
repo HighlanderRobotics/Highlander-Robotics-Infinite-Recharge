@@ -7,11 +7,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalSource;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import frc.robot.subsystems.DriveSubsystem;
-import io.github.oblarg.oblog.annotations.Config;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -44,7 +41,7 @@ public final class Constants {
     public static final double kTrackWidthMeters = 0.6187672283855629 ; //0.61214 calculated, 0.741 is from characterization
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         // Max Trajectory Velocity/Acceleration
-    public static double kMaxSpeedMetersPerSecond = 1.0;
+    public static double kMaxSpeedMetersPerSecond = 8.0;
     public static double kMaxAccelerationMetersPerSecondSquared = 0.5;
         //Ramsete
     public static double kRamseteB = 2;

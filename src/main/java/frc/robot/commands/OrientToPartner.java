@@ -17,7 +17,7 @@ public class OrientToPartner extends CommandBase {
   private Gyro gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
   private final DriveSubsystem m_driveSubsystem;
   private double heading = gyro.getAngle();
-  private int prospectiveAngle = 90; // -90 if left and 90 if right (I think)
+  private int prospectiveAngle = -90; // -90 if left and 90 if right (I think)
 
   /**
    * Creates a new OrientToPartner.

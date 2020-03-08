@@ -48,13 +48,13 @@ public class ControlPanelRotation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(counter != 6)
-      m_controlPanelSubsystem.halfSpeed();
-    if(Timer.getFPGATimestamp() - prevTime >= 0.3){
+    if(counter != 7)
+      m_controlPanelSubsystem.quarterSpeed();
+    if(Timer.getFPGATimestamp() - prevTime >= 0.35){
       if(startingColor.equals(m_controlPanelSubsystem.colorDetected()))
         counter++;
         System.out.println(counter);
-      if(counter == 6){
+      if(counter == 7){
         m_controlPanelSubsystem.zeroSpeed();
       }
       prevTime = Timer.getFPGATimestamp();
