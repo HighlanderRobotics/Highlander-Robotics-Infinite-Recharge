@@ -10,10 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class SlowColorWheel extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
+  @Log.BooleanBox private boolean isPanelMovementFinished;
   
   public SlowColorWheel(DriveSubsystem driveSubsystem, DistanceSensorSubsystem distanceSensorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,6 +27,7 @@ public class SlowColorWheel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isPanelMovementFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +41,7 @@ public class SlowColorWheel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isPanelMovementFinished = true;
   }
 
   // Returns true when the command should end.

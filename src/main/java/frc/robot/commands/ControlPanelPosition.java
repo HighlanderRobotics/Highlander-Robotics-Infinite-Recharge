@@ -7,20 +7,16 @@
 
 package frc.robot.commands;
 
-import java.util.Arrays;
-import java.util.List;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj.DriverStation;
-
-
-
 
 public class ControlPanelPosition extends CommandBase {
   private final ControlPanelSubsystem m_controlPanelSubsystem;
     String color;
     //randomColor.nextInt(4)
+    @Log.BooleanBox private boolean isPositionFinished;
   public ControlPanelPosition(ControlPanelSubsystem controlPanelSubsystem) {
     m_controlPanelSubsystem = controlPanelSubsystem;
     addRequirements(m_controlPanelSubsystem);
@@ -30,6 +26,7 @@ public class ControlPanelPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isPositionFinished = false;
     color = DriverStation.getInstance().getGameSpecificMessage();
   }
 
@@ -46,7 +43,7 @@ public class ControlPanelPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    isPositionFinished = true;
   }
 
   // Returns true when the command should end.

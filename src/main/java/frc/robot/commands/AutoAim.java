@@ -7,21 +7,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class AutoAim extends CommandBase {
 
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  
+  @Log.BooleanBox boolean isAutoAimFinished;
   /**
    * Creates a new autoAim.
    */
@@ -36,6 +33,7 @@ public class AutoAim extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isAutoAimFinished = false;
     m_limeLightSubsystem.lightOff();
   }
 
@@ -70,6 +68,7 @@ public class AutoAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isAutoAimFinished = true;
     m_limeLightSubsystem.lightOff();
 
   }

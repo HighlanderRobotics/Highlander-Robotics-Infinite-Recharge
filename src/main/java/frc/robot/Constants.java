@@ -21,7 +21,6 @@ import frc.robot.subsystems.DriveSubsystem;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
     public final class HenrysCarpet {
 
