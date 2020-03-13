@@ -19,7 +19,7 @@ public class ControlPanelRotation extends CommandBase {
    */
   //Creates a color string that can be used by both initialize() and execute()
   String startingColor = new String("");
-  @Log.BooleanBox boolean isRotationFinished;
+  @Log boolean isRotationFinished;
   double prevTime;
   int counter;
   public ControlPanelRotation(ControlPanelSubsystem controlPanelSubsystem) {
@@ -67,15 +67,12 @@ public class ControlPanelRotation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isRotationFinished = true;
+    isRotationFinished = !interrupted;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(counter == 6)
-      return true;
-    else 
-      return false;
+    return counter == 6;
   }
 }

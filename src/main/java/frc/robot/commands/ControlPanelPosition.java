@@ -16,7 +16,7 @@ public class ControlPanelPosition extends CommandBase {
   private final ControlPanelSubsystem m_controlPanelSubsystem;
     String color;
     //randomColor.nextInt(4)
-    @Log.BooleanBox private boolean isPositionFinished;
+    @Log private boolean isPositionFinished;
   public ControlPanelPosition(ControlPanelSubsystem controlPanelSubsystem) {
     m_controlPanelSubsystem = controlPanelSubsystem;
     addRequirements(m_controlPanelSubsystem);
@@ -43,17 +43,12 @@ public class ControlPanelPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isPositionFinished = true;
+    isPositionFinished = !interrupted;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_controlPanelSubsystem.colorDetectedPosistion().equals(color)) {
-      return true;
-    } else {
-      return false;
-    }
-
+    return m_controlPanelSubsystem.colorDetectedPosistion().equals(color);
   }
 }

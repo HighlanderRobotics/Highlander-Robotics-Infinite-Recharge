@@ -18,7 +18,7 @@ public class AutoAim extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  @Log.BooleanBox boolean isAutoAimFinished;
+  @Log boolean isAutoAimFinished;
   /**
    * Creates a new autoAim.
    */
@@ -68,7 +68,7 @@ public class AutoAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isAutoAimFinished = true;
+    isAutoAimFinished = !interrupted;
     m_limeLightSubsystem.lightOff();
 
   }

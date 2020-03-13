@@ -12,12 +12,12 @@ import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class SlowColorWheel extends CommandBase {
+public class ColorWheelApproach extends CommandBase {
   private final DriveSubsystem m_driveSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  @Log.BooleanBox private boolean isPanelMovementFinished;
+  @Log private boolean isPanelMovementFinished;
   
-  public SlowColorWheel(DriveSubsystem driveSubsystem, DistanceSensorSubsystem distanceSensorSubsystem) {
+  public ColorWheelApproach(DriveSubsystem driveSubsystem, DistanceSensorSubsystem distanceSensorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveSubsystem = driveSubsystem;
     m_distanceSensorSubsystem = distanceSensorSubsystem;
@@ -41,15 +41,12 @@ public class SlowColorWheel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isPanelMovementFinished = true;
+    isPanelMovementFinished = !interrupted;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_distanceSensorSubsystem.getControlPanelDistance() < 3)
-      return true;
-    else
-      return false;
+    return m_distanceSensorSubsystem.getControlPanelDistance() < 3;
   }
 }
