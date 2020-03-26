@@ -17,16 +17,16 @@ public class DistanceSensorSubsystem extends SubsystemBase {
    * Creates a new distanceSensorSubsystem.
    */
 
-  private final Ultrasonic frontRight = new Ultrasonic(Constants.PING_CHANNEL, Constants.ECHO_CHANNEL);
+  private final Ultrasonic front = new Ultrasonic(Constants.PING_CHANNEL, Constants.ECHO_CHANNEL);
   //private final Ultrasonic frontLeft = new Ultrasonic(2, 3);
 
   public DistanceSensorSubsystem() {
-    frontRight.setAutomaticMode(true);
+    front.setAutomaticMode(true);
     //frontLeft.setAutomaticMode(false);
   }
 
   public double getFrontRightDistance() {
-    return frontRight.getRangeInches();
+    return front.getRangeInches();
   }
 
  /*

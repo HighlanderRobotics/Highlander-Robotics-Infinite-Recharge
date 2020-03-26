@@ -114,9 +114,9 @@ public class RobotContainer {
             .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.6))
             .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
 
-        new JoystickButton(m_driverController, Button.kBumperLeft.value)
-            .whenPressed(() ->     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0))
-            .whenReleased(() ->    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1));
+        //new JoystickButton(m_driverController, Button.kBumperLeft.value)
+        //    .whenPressed(() ->     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0))
+        //    .whenReleased(() ->    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1));
 
         
 
@@ -127,7 +127,7 @@ public class RobotContainer {
         m_intakeSubsystem.setDefaultCommand(new RunCommand(() -> m_intakeSubsystem.zeroSpeed(), m_intakeSubsystem));
         m_driveSubsystem.setDefaultCommand(new RunCommand(teleOpDriveFn, m_driveSubsystem));
         //m_driveSubsystem.setDefaultCommand(new RunCommand(() -> m_driveSubsystem.driveStraight(), m_driveSubsystem));
-        m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.defaultReadings(), m_limelightSubsystem));
+        m_limelightSubsystem.setDefaultCommand(new RunCommand(() -> m_limelightSubsystem.lightOn(), m_limelightSubsystem));
         m_pneumaticsSubsystem.setDefaultCommand(new RunCommand(() -> m_pneumaticsSubsystem.retractBothPistons(), m_pneumaticsSubsystem));
         SmartDashboard.putData("Blue", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("B")));
         SmartDashboard.putData("Red", new InstantCommand(() -> m_controlPanelSubsystem.colorRotation("R")));

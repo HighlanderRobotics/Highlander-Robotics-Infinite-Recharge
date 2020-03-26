@@ -19,24 +19,22 @@ public class LimeLightSubsystem extends SubsystemBase {
   public double horizontalOffset; 
   public double verticalOffset;
   public double areaOffset;
+  NetworkTable table;
   
   public LimeLightSubsystem() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+
   }
 
   public void defaultReadings() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
+    
 
     //read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
-    SmartDashboard.putNumber("LimelightArea", area);
+    double x = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
+    double y = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
+    double area = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0.0);
+
+
+    
   }
 
   public void lightReadings() {
@@ -46,15 +44,12 @@ public class LimeLightSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = table.getEntry("tx");
-    NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry ta = table.getEntry("ta");
-
-    //read values periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = ta.getDouble(0.0);
+    double x = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("tx").getDouble(0.0);
+    double y = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ty").getDouble(0.0);
+    double area = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ta").getDouble(0.0);
+    SmartDashboard.putNumber("limelightX", x);
+    SmartDashboard.putNumber("limelightY", y);
+    SmartDashboard.putNumber("limelightArea", area);
 
     horizontalOffset = x;
     verticalOffset = y;
@@ -73,10 +68,10 @@ public class LimeLightSubsystem extends SubsystemBase {
   }
 
   public void lightOn() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ledMode").setNumber(0);
   }
 
   public void lightOff() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ledMode").setNumber(1);
   }
 }
