@@ -8,47 +8,45 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DistanceSensorSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import io.github.oblarg.oblog.annotations.Log;
-import edu.wpi.first.wpilibj.DriverStation;
 
-public class ControlPanelPosition extends CommandBase {
-  private final ControlPanelSubsystem m_controlPanelSubsystem;
-    String color;
-    //randomColor.nextInt(4)
-    @Log private boolean isPositionFinished;
-  public ControlPanelPosition(ControlPanelSubsystem controlPanelSubsystem) {
-    m_controlPanelSubsystem = controlPanelSubsystem;
-    addRequirements(m_controlPanelSubsystem);
+public class ColorWheelApproach extends CommandBase {
+  private final DriveSubsystem m_driveSubsystem;
+  private final DistanceSensorSubsystem m_distanceSensorSubsystem;
+  @Log private boolean isPanelMovementFinished;
+  
+  public ColorWheelApproach(DriveSubsystem driveSubsystem, DistanceSensorSubsystem distanceSensorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_driveSubsystem = driveSubsystem;
+    m_distanceSensorSubsystem = distanceSensorSubsystem;
+    addRequirements(m_driveSubsystem, m_distanceSensorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isPositionFinished = false;
-    color = DriverStation.getInstance().getGameSpecificMessage();
+    isPanelMovementFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!m_controlPanelSubsystem.colorDetectedPosistion().equals(color))
-      m_controlPanelSubsystem.setSpeed(0.15);
-    else{
-      m_controlPanelSubsystem.zeroSpeed();
+    if(m_distanceSensorSubsystem.getControlPanelDistance() < 20) {
+      m_driveSubsystem.straightDrive(0.2);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isPositionFinished = !interrupted;
+    isPanelMovementFinished = !interrupted;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_controlPanelSubsystem.colorDetectedPosistion().equals(color);
+    return m_distanceSensorSubsystem.getControlPanelDistance() < 3;
   }
 }

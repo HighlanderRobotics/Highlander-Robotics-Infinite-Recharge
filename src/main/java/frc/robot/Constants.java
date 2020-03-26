@@ -21,7 +21,6 @@ import frc.robot.subsystems.DriveSubsystem;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
     public final class HenrysCarpet {
 
@@ -57,9 +56,11 @@ public final class Constants {
     public static double HALF_SPEED_MULTIPLIER = 0.5;
     public static double SLOW_TURN_MULTIPLE = 0.75;
 
-    // Distance Sensor
-    public static int PING_CHANNEL = 4;
-    public static int ECHO_CHANNEL = 5;
+    // Distance Sensors
+    public static int FRONT_PING_CHANNEL = 4;
+    public static int FRONT_ECHO_CHANNEL = 5;
+    public static int CONTROLPANEL_PING_CHANNEL = 6;
+    public static int CONTROLPANEL_ECHO_CHANNEL = 7;
 
     // Motors
     public static int DRIVESUBSYSTEM_LEFT_BACK_TALON = 0;

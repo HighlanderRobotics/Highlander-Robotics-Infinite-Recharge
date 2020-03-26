@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class ControlPanelRotation extends CommandBase {
   private final ControlPanelSubsystem m_controlPanelSubsystem;
@@ -18,6 +19,7 @@ public class ControlPanelRotation extends CommandBase {
    */
   //Creates a color string that can be used by both initialize() and execute()
   String startingColor = new String("");
+  @Log boolean isRotationFinished;
   double prevTime;
   int counter;
   public ControlPanelRotation(ControlPanelSubsystem controlPanelSubsystem) {
@@ -29,6 +31,7 @@ public class ControlPanelRotation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isRotationFinished = false;
     if(m_controlPanelSubsystem.isMatchingColor("R")){
       startingColor = "R";
     }
@@ -64,14 +67,12 @@ public class ControlPanelRotation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isRotationFinished = !interrupted;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(counter == 6)
-      return true;
-    else 
-      return false;
+    return counter == 6;
   }
 }

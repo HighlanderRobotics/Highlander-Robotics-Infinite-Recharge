@@ -7,21 +7,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DistanceSensorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimeLightSubsystem;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class AutoAim extends CommandBase {
 
   private final DriveSubsystem m_driveSubsystem;
   private final LimeLightSubsystem m_limeLightSubsystem;
   private final DistanceSensorSubsystem m_distanceSensorSubsystem;
-  
+  @Log boolean isAutoAimFinished;
   /**
    * Creates a new autoAim.
    */
@@ -29,13 +26,14 @@ public class AutoAim extends CommandBase {
     m_driveSubsystem = driveSubsystem;
     m_limeLightSubsystem = limelightSubsystem;
     m_distanceSensorSubsystem = distanceSensorSubsystem;
-    addRequirements(m_driveSubsystem, m_limeLightSubsystem);
+    addRequirements(m_driveSubsystem, m_limeLightSubsystem, m_distanceSensorSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isAutoAimFinished = false;
     m_limeLightSubsystem.lightOff();
   }
 
@@ -59,6 +57,7 @@ public class AutoAim extends CommandBase {
       m_driveSubsystem.turnDriveAtSpeed(0.5);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
       m_driveSubsystem.turnDriveAtSpeed(-0.5);
+<<<<<<< HEAD
     } else {
       m_driveSubsystem.straightDrive(-0.5);
     }
@@ -69,6 +68,11 @@ public class AutoAim extends CommandBase {
     if(m_distanceSensorSubsystem.getFrontRightDistance() >= 30) {
       m_driveSubsystem.straightDrive(-0.5);
     } else if(m_distanceSensorSubsystem.getFrontRightDistance() <= 30) {
+=======
+    } else if(m_distanceSensorSubsystem.getFrontDistance() >= 10) {
+      m_driveSubsystem.straightDrive(0.5);
+    } else if(m_distanceSensorSubsystem.getFrontDistance() <= 10) {
+>>>>>>> c53a81b10cd873da6c17683900c84088ac0a80f2
         m_driveSubsystem.straightDrive(0);
     }
     */
@@ -78,6 +82,7 @@ public class AutoAim extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isAutoAimFinished = !interrupted;
     m_limeLightSubsystem.lightOff();
 
   }
@@ -85,6 +90,10 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+<<<<<<< HEAD
     return m_distanceSensorSubsystem.getFrontRightDistance() <= 30;
+=======
+    return m_distanceSensorSubsystem.getFrontDistance() <= 5;
+>>>>>>> c53a81b10cd873da6c17683900c84088ac0a80f2
   }
 }

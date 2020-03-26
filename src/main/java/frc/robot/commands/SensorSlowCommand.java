@@ -46,7 +46,7 @@ public class SensorSlowCommand extends CommandBase {
     SmartDashboard.putNumber("Timer", timeSinceLastReading.get());
 
     if(timeSinceLastReading.get() >= 0.02) {
-      currReading = m_distanceSensorSubsystem.getFrontRightDistance();
+      currReading = m_distanceSensorSubsystem.getFrontDistance();
       timeSinceLastReading.reset();
     } 
     

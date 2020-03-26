@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
@@ -27,7 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.ControlPanelPosition;
 import frc.robot.commands.ControlPanelRotation;
-import frc.robot.commands.OrientToPartner;
+import frc.robot.commands.ColorWheelApproach;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -94,6 +93,9 @@ public class RobotContainer {
         whileHeldFuncController(Button.kBumperLeft, m_shooterSubsystem, m_shooterSubsystem::shootBalls);
         whileHeldFuncController(Button.kBumperRight, m_pneumaticsSubsystem, m_pneumaticsSubsystem::extendIntakePiston);
 
+        new JoystickButton(m_functionsController, Button.kB.value)
+            .whileHeld(new ColorWheelApproach(m_driveSubsystem, m_distanceSensorSubsystem));
+
         new JoystickButton(m_functionsController, Button.kX.value)
             .toggleWhenPressed(new ControlPanelPosition(m_controlPanelSubsystem));
         
@@ -103,6 +105,9 @@ public class RobotContainer {
         // Driver Controller
         //new JoystickButton(m_driverController, Button.kBumperLeft.value)
         //    .whileHeld(new SensorSlowCommand(m_distanceSensorSubsystem, m_driveSubsystem, teleOpDriveFn));
+
+        new JoystickButton(m_driverController, Button.kB.value)
+            .whileHeld(new ColorWheelApproach(m_driveSubsystem, m_distanceSensorSubsystem));
 
         new JoystickButton(m_driverController, Button.kBumperLeft.value)
             .whileHeld(new AutoAim(m_driveSubsystem, m_limelightSubsystem, m_distanceSensorSubsystem));
