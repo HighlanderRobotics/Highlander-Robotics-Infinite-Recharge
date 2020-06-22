@@ -57,25 +57,12 @@ public class AutoAim extends CommandBase {
       m_driveSubsystem.turnDriveAtSpeed(0.5);
     } else if(m_limeLightSubsystem.getHorizontalOffset() < -7) {
       m_driveSubsystem.turnDriveAtSpeed(-0.5);
-<<<<<<< HEAD
-    } else {
-      m_driveSubsystem.straightDrive(-0.5);
-    }
-      
-      
-      
-    /*  
-    if(m_distanceSensorSubsystem.getFrontRightDistance() >= 30) {
-      m_driveSubsystem.straightDrive(-0.5);
-    } else if(m_distanceSensorSubsystem.getFrontRightDistance() <= 30) {
-=======
     } else if(m_distanceSensorSubsystem.getFrontDistance() >= 10) {
       m_driveSubsystem.straightDrive(0.5);
     } else if(m_distanceSensorSubsystem.getFrontDistance() <= 10) {
->>>>>>> c53a81b10cd873da6c17683900c84088ac0a80f2
         m_driveSubsystem.straightDrive(0);
     }
-    */
+    
     
   }
 
@@ -90,10 +77,6 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-<<<<<<< HEAD
-    return m_distanceSensorSubsystem.getFrontRightDistance() <= 30;
-=======
     return m_distanceSensorSubsystem.getFrontDistance() <= 5;
->>>>>>> c53a81b10cd873da6c17683900c84088ac0a80f2
   }
 }
