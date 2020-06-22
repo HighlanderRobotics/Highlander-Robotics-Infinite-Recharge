@@ -33,7 +33,7 @@ public class ColorWheelApproach extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_distanceSensorSubsystem.getControlPanelDistance() < 20) {
+    if(m_distanceSensorSubsystem.getControlPanelDistance() > 20) {
       m_driveSubsystem.straightDrive(0.2);
     }
   }
@@ -47,6 +47,6 @@ public class ColorWheelApproach extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_distanceSensorSubsystem.getControlPanelDistance() < 3;
+    return m_distanceSensorSubsystem.getControlPanelDistance() < 5;
   }
 }
