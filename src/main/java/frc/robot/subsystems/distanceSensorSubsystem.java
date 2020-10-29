@@ -16,7 +16,6 @@ public class DistanceSensorSubsystem extends SubsystemBase {
   /**
    * Creates a new distanceSensorSubsystem.
    */
-
   private final Ultrasonic front = new Ultrasonic(Constants.FRONT_PING_CHANNEL, Constants.FRONT_ECHO_CHANNEL);
   private final Ultrasonic controlPanel = new Ultrasonic(Constants.CONTROLPANEL_PING_CHANNEL, Constants.CONTROLPANEL_ECHO_CHANNEL);
 
