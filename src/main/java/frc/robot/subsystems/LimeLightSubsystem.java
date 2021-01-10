@@ -41,20 +41,6 @@ public class LimeLightSubsystem extends SubsystemBase {
     
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    double x = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("tx").getDouble(0.0);
-    double y = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ty").getDouble(0.0);
-    double area = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ta").getDouble(0.0);
-    SmartDashboard.putNumber("limelightX", x);
-    SmartDashboard.putNumber("limelightY", y);
-    SmartDashboard.putNumber("limelightArea", area);
-
-    horizontalOffset = x;
-    verticalOffset = y;
-
-  }
   public double getArea() {
     return areaOffset;
   }
@@ -74,4 +60,20 @@ public class LimeLightSubsystem extends SubsystemBase {
   public void lightOff() {
     NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ledMode").setNumber(1);
   }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    double x = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("tx").getDouble(0.0);
+    double y = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ty").getDouble(0.0);
+    double area = NetworkTableInstance.getDefault().getTable("limelight-high").getEntry("ta").getDouble(0.0);
+    SmartDashboard.putNumber("limelightX", x);
+    SmartDashboard.putNumber("limelightY", y);
+    SmartDashboard.putNumber("limelightArea", area);
+
+    horizontalOffset = x;
+    verticalOffset = y;
+
+  }
+
 }

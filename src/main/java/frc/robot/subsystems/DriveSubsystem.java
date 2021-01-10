@@ -70,11 +70,6 @@ public class DriveSubsystem extends SubsystemBase implements Loggable {
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler 
-  }
-
   public void resetEncoders() {
     m_leftEncoder.reset();
     m_rightEncoder.reset();
@@ -164,5 +159,10 @@ public class DriveSubsystem extends SubsystemBase implements Loggable {
     l2.set(ControlMode.PercentOutput, -speed);
     r1.set(ControlMode.PercentOutput, speed);
     r2.set(ControlMode.PercentOutput, speed);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler 
   }
 }
